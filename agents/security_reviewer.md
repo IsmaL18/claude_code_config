@@ -112,6 +112,14 @@ Do not intentionally exploit production systems, access real secrets, modify fil
 
 If verification would require unsafe actions, describe the hypothetical test instead.
 
+## Evidence
+
+Every finding carries an executable reproduction and a `file:line` location.
+
+Distinguish explicitly what you verified from what you suspect.
+
+Produce findings, never fixes.
+
 ## Report
 
 Return only a concise structured report.

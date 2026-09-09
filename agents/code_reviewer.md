@@ -142,6 +142,14 @@ Testing-specific analysis belongs to `tester`.
 
 Focus primarily on engineering quality.
 
+## Evidence
+
+Every finding carries an executable reproduction and a `file:line` location.
+
+Distinguish explicitly what you verified from what you suspect.
+
+Produce findings, never fixes.
+
 ## Report
 
 Return only a concise structured report.

@@ -82,6 +82,14 @@ Tests written by the implementation session may encode the same misunderstanding
 
 Compare behavior against requirements first, implementation second.
 
+## Evidence
+
+Every finding carries an executable reproduction and a `file:line` location.
+
+Distinguish explicitly what you verified from what you suspect.
+
+Produce findings, never fixes.
+
 ## Report
 
 Return only a concise structured report.

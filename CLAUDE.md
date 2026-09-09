@@ -80,19 +80,18 @@ Examples:
 * major cross-module feature
 * important architectural decision
 
-Use the complete workflow:
+Use the complete workflow. What matters is less the order of the steps than **where the session boundaries are**: a fresh context is mandatory where independence is the whole point, and continuity is an asset everywhere else.
 
-1. `product-owner` skill 
-2. Versioned specification in `specs/`
-3. `architect` skill 
-4. ADR in `docs/adr/`
-5. `tdd-implementation` skill 
-6. Independent `tester`
-7. `security-reviewer` subagent when security is relevant
-8. Independent `code-reviewer`subagent
-9. Corrections
-10. `pre-delivery-check` skill
-11. `deliver` skill
+| Step | Context | May read | Must NOT read | Produces |
+|---|---|---|---|---|
+| `product-owner` | fresh, **mandatory** | `PRODUCT.md`, `USER.md`, `specs/` | source code | `specs/NNN-*.md` |
+| `architect` | fresh, recommended | spec, `ARCHITECTURE.md`, ADRs, code structure | — | `docs/adr/NNNN-*.md` |
+| `tdd-implementation` | continuous | everything | — | code + tests |
+| `tester` / `security-reviewer` / `code-reviewer` | fresh, **mandatory** | everything | — | findings only |
+| corrections | continuous, following the reviews | everything | — | code + amended ADRs |
+| `pre-delivery-check` → `deliver` | continuous | everything | — | delivery |
+
+`security-reviewer` is mandatory only when security is relevant; the other two always are.
 
 Do not allow the implementation session to be the only reviewer of its own work.
 
@@ -168,6 +167,37 @@ A bug that could regress should usually become a regression test.
 
 ---
 
+### An asserted invariant is a tested invariant
+
+Any property stated as a guarantee — in an ADR, a `CLAUDE.md`, a docstring or a commit message — must have a test that holds it, named so the assertion can be traced back to it.
+
+If you cannot write that test, you cannot write the assertion.
+
+---
+
+### A mock never validates an external contract
+
+A test with a simulated double proves your orchestration, never the contract of a system you do not control. Every external integration must have at least one test exercising the real client's validation path — request construction, schema transformation, serialization — even without network access.
+
+---
+
+### Prove the full path before deepening it
+
+Before building depth on an external integration, make the thinnest possible end-to-end path work against the real system.
+
+---
+
+### Trigger reviews on thresholds, not at the end
+
+Launch an independent review **as soon as one of these thresholds is crossed**, not once everything is finished:
+
+* a new module;
+* a new external integration (API, database, third-party format);
+* three implementation increments;
+* any design decision taken alone that no ADR anticipated.
+
+---
+
 ### Prefer minimal changes
 
 Do not modify unrelated code without a reason.
@@ -187,6 +217,19 @@ When a mistake reveals reusable knowledge:
 * reusable workflow improvement → improve the relevant Skill.
 
 Do not repeatedly solve the same problem from scratch.
+
+---
+
+### Hand off before ending a session
+
+Before ending a non-trivial session, record:
+
+1. **what is done**, and where to verify it (commits, tests);
+2. **what is not verified** — assumptions, paths never executed, estimated figures. This is the most important section, and the one that gets forgotten;
+3. **the decisions taken alone**, not yet reviewed;
+4. **the next step**, and the role that should take it.
+
+Record this in the project memory, not in a repository file: progress state is not documentation and it expires fast.
 
 ---
 

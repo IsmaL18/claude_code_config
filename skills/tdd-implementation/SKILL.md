@@ -19,6 +19,10 @@ description: Implement behavior test-first from a specification or acceptance cr
 11. Run applicable lint, typecheck, and build checks.
 12. Keep useful tests in the repository.
 
+For an external integration, make the thinnest end-to-end path work against the real system before deepening, and cover the real client's validation path — a mock never validates an external contract.
+
+Any property you state as a guarantee, in a docstring or a commit message, must have a test that holds it.
+
 Do not weaken tests to make an incorrect implementation pass.
 Do not derive expected behavior from existing code when a specification defines it.
 
