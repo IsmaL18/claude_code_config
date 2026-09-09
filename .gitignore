@@ -1,0 +1,8 @@
+# Ignore everything at the root by default...
+/*
+
+# ...except what we explicitly want to track
+!/.gitignore
+!/CLAUDE.md
+!/agents/
+!/skills/
