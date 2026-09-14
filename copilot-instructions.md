@@ -169,7 +169,7 @@ A bug that could regress should usually become a regression test.
 
 ### An asserted invariant is a tested invariant
 
-Any property stated as a guarantee — in an ADR, a `CLAUDE.md` and an `AGENTS.md`, a docstring or a commit message — must have a test that holds it, named so the assertion can be traced back to it.
+Any property stated as a guarantee — in an ADR, a `CLAUDE.md` and a `AGENTS.md`, a docstring or a commit message — must have a test that holds it, named so the assertion can be traced back to it.
 
 If you cannot write that test, you cannot write the assertion.
 
@@ -312,7 +312,7 @@ Examples:
 * misleading legacy code;
 * important dependency constraints.
 
-Treat `CLAUDE.md` and `AGENTS.md` as operational memory, not general documentation.
+Treat `CLAUDE.md` and `AGENTS.md`as operational memory, not general documentation.
 
 ---
 
