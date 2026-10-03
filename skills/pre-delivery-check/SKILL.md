@@ -19,6 +19,8 @@ Do not introduce new functionality during this workflow.
    - project-specific validation commands.
 4. Check for:
    - failing or skipped relevant tests;
+   - tests, fixtures, snapshots, test configuration or `TESTS.md` modified outside the `test-writer` role (compare the test-file diff with the `TESTS.md` entries and the test-writer reports);
+   - new or changed tests missing from `TESTS.md`;
    - accidental unrelated changes;
    - debug code;
    - temporary files;

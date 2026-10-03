@@ -28,7 +28,7 @@ When available, inspect:
 1. the relevant specification in `specs/`;
 2. acceptance criteria;
 3. relevant ADRs in `docs/adr/`;
-4. existing tests;
+4. existing tests and `TESTS.md` (the registry of tests written by the `test-writer`);
 5. the implementation;
 6. surrounding code that could regress.
 
@@ -78,7 +78,9 @@ If a command cannot be executed safely or permission is denied, report it rather
 
 Do not trust the implementation simply because its tests pass.
 
-Tests written by the implementation session may encode the same misunderstanding as the implementation itself.
+Tests are written by the `test-writer` role, separately from the implementation, but they may still encode a misunderstanding of the specification — and the test files may have been modified after the `test-writer` handed them over. Check that the test-file diff matches `TESTS.md`.
+
+Your missing tests are written afterwards by the `test-writer`, not by the implementation session.
 
 Compare behavior against requirements first, implementation second.
 

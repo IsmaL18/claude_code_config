@@ -1,5 +1,3 @@
-@RTK.md
-
 # AI-assisted development workflow
 
 This file defines my default development workflow across all repositories.
@@ -54,7 +52,7 @@ Workflow:
 1. Explore the affected code.
 2. Clarify the expected behavior and acceptance criteria.
 3. Make a short implementation plan.
-4. Use `tdd-implementation` when behavior can be tested.
+4. Use `tdd-implementation` when behavior can be tested (tests come from the `test-writer` role, code from the implementation session).
 5. Run `pre-delivery-check`.
 
 A dedicated spec is optional if the feature is sufficiently small and unambiguous.
@@ -86,7 +84,8 @@ Use the complete workflow. What matters is less the order of the steps than **wh
 |---|---|---|---|---|
 | `product-owner` | fresh, **mandatory** | `PRODUCT.md`, `USER.md`, `specs/` | source code | `specs/NNN-*.md` |
 | `architect` | fresh, recommended | spec, `ARCHITECTURE.md`, ADRs, code structure | — | `docs/adr/NNNN-*.md` |
-| `tdd-implementation` | continuous | everything | — | code + tests |
+| `test-writer` (skill `test-authoring`) | fresh, **mandatory** | spec, ADRs, public interfaces, existing tests, `TESTS.md` | implementation internals | tests + `TESTS.md` |
+| `tdd-implementation` | continuous | everything | — | production code only, **never tests** |
 | `tester` / `security-reviewer` / `code-reviewer` | fresh, **mandatory** | everything | — | findings only |
 | corrections | continuous, following the reviews | everything | — | code + amended ADRs |
 | `pre-delivery-check` → `deliver` | continuous | everything | — | delivery |
@@ -167,9 +166,22 @@ A bug that could regress should usually become a regression test.
 
 ---
 
+### The one who writes the code never writes the tests
+
+Tests and production code are written by two separate roles, in two separate contexts:
+
+* the `test-writer` role (agent `test-writer`, skill `test-authoring`) writes and modifies tests, test fixtures, test helpers and test configuration, and records every test it writes in `TESTS.md` at the repository root;
+* the implementation session writes production code only.
+
+The implementation session **must never** create, modify, delete, skip, disable or weaken a test, a fixture, a snapshot, a test configuration or `TESTS.md` — not even to fix a typo, an import or an obviously wrong assertion. When a test looks wrong, it stops and sends the evidence back to the `test-writer`; if they disagree on the expected behavior, the user decides.
+
+This applies to every workflow that produces tests: features, bug fixes (regression tests), refactorings (characterization tests).
+
+---
+
 ### An asserted invariant is a tested invariant
 
-Any property stated as a guarantee — in an ADR, a `CLAUDE.md` and a `AGENTS.md`, a docstring or a commit message — must have a test that holds it, named so the assertion can be traced back to it.
+Any property stated as a guarantee — in an ADR, a `CLAUDE.md` and an `AGENTS.md`, a docstring or a commit message — must have a test that holds it, named so the assertion can be traced back to it.
 
 If you cannot write that test, you cannot write the assertion.
 
@@ -214,12 +226,14 @@ When a mistake reveals reusable knowledge:
 
 * repository convention or trap → add it to the appropriate `CLAUDE.md` or `AGENTS.md` depending
 on what's used in the project;
-* behavior that must never regress → add or improve a test;
+* behavior that must never regress → have the `test-writer` add or improve a test;
 * reusable workflow improvement → improve the relevant Skill.
 
 Do not repeatedly solve the same problem from scratch. 
 
 If you need to modify an agent, a skill or a file that is related to the coding agent say it. It will have to be modified for the Claude Code and the Github Copilot configs. These configs need to be the same and to be modified always together.
+
+The global instructions have a single source of truth: `~/.claude/AGENTS.md`. `~/.claude/CLAUDE.md` imports it and `~/.copilot/copilot-instructions.md` is a symlink to it — edit only `AGENTS.md`. Skills and agents still exist in both `~/.claude/` and `~/.copilot/` and must be kept identical.
 
 ---
 
@@ -248,6 +262,7 @@ project/
 ├── USER.md
 ├── DESIGN.md
 ├── ARCHITECTURE.md
+├── TESTS.md        # registry of tests written by the test-writer role
 ├── specs/
 │   └── ...
 ├── docs/
@@ -312,7 +327,7 @@ Examples:
 * misleading legacy code;
 * important dependency constraints.
 
-Treat `CLAUDE.md` and `AGENTS.md`as operational memory, not general documentation.
+Treat `CLAUDE.md` and `AGENTS.md` as operational memory, not general documentation.
 
 ---
 
@@ -466,9 +481,17 @@ Do not create module-level files by default.
 
 ---
 
-## 10. Independent review roles
+## 10. Independent roles
 
 Use specialized agents when an independent context improves review quality.
+
+### `test-writer`
+
+Writes the tests, before the implementation, from the specification and the agreed seams — never from the implementation.
+
+Only role allowed to touch tests and `TESTS.md`. Never writes production code.
+
+Follows the `test-authoring` skill.
 
 ### `tester`
 
@@ -518,6 +541,7 @@ Available workflow Skills:
 * `start-feature`
 * `architecture-audit`
 * `tdd-implementation`
+* `test-authoring`
 * `bug-investigation`
 * `refactor-module`
 * `pre-delivery-check`
