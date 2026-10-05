@@ -7,3 +7,6 @@
 !/agents/
 !/skills/
 !/AGENTS.md
+
+# Auto-synced Anthropic skills, managed outside this repo
+/skills/synced/
