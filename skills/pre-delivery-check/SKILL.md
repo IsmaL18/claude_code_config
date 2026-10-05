@@ -35,3 +35,12 @@ Return a concise checklist with:
 - unresolved blockers;
 - non-blocking concerns;
 - final verdict: READY or NOT READY.
+
+## Next step
+
+End with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt).
+
+Routing:
+
+* READY → `deliver`, continue this session.
+* NOT READY → back to the role that owns the blocker: implementation (`tdd-implementation`, continue this session) for code, `test-writer` agent for tests, `product-owner` (new session) for a spec gap. The prompt lists the failing checks and blockers.

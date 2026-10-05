@@ -84,3 +84,11 @@ Return:
 * the command to run them and the red result with its failure reason;
 * any acceptance criterion you could not test, and why;
 * any ambiguity found in the specification.
+
+## Next step
+
+End with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt).
+
+When you were launched as the `test-writer` agent, your report goes back to the implementation session: the next step is the green phase of `tdd-implementation` (or of `bug-investigation` / `refactor-module`) in that same session — state it in one line, no prompt needed.
+
+When you ran as a standalone session, give the prompt for `tdd-implementation` in a new session: spec path, seams, `TESTS.md` IDs, test command and the expected red. It contains no implementation idea.

@@ -25,3 +25,13 @@ Act as the delivery owner.
 
 Do not hide failed checks, unresolved review findings, or unrelated changes.
 Do not include files outside the intended delivery scope without user approval.
+
+## Next step
+
+End with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt).
+
+Routing:
+
+* delivered and nothing remains → say the workflow is complete; record the memory hand-off.
+* a follow-up was identified (next slice, deferred finding, new feature) → the matching skill (`tdd-implementation`, `start-feature`, `bug-investigation`, `refactor-module`), new session; the prompt gives the delivered PR/commit, the follow-up and its source.
+* PR awaiting review comments → `tdd-implementation` or `bug-investigation`, new session, with the PR link and the comments to address.

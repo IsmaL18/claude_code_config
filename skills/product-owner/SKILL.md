@@ -38,3 +38,15 @@ The spec should contain:
 
 Write acceptance criteria so they can later become tests or delivery checks.
 Do not prescribe architecture unless it is part of an explicit product constraint.
+
+## Next step
+
+End with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt).
+
+Routing:
+
+* the spec implies an architectural decision (new subsystem, external integration, data model, auth, cross-module) → `architect`, new session recommended; the prompt gives the spec path and the decision to make.
+* otherwise → `tdd-implementation`, new session; the prompt gives the spec path, the acceptance criteria IDs and asks to confirm the seams before calling the `test-writer`.
+* open questions remain that block implementation → stay in `product-owner` and say which answers are needed.
+
+Since this session read no code, the prompt never mentions implementation details.

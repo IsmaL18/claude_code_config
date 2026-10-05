@@ -30,3 +30,14 @@ End with:
 - main architectural risks;
 - missing knowledge requiring user input;
 - recommended next actions.
+
+## Next step
+
+End with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt).
+
+Routing — choose from the bootstrap roadmap:
+
+* product intent missing → `product-owner`, new session mandatory (no code in the prompt).
+* structural risks need deeper analysis → `architecture-audit`, new session.
+* a safe first extraction was identified → `refactor-module`, new session.
+* the project is ready for feature work → `start-feature`, new session.

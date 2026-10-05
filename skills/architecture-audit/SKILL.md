@@ -35,3 +35,13 @@ Return:
 - findings with affected areas and impact;
 - recommended improvements ordered by priority;
 - suggested first safe extraction or refactor when relevant.
+
+## Next step
+
+End with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt).
+
+Routing:
+
+* a finding requires a structural decision → `architect`, new session recommended; the prompt gives the finding, the affected areas and the options identified.
+* a safe first extraction was identified → `refactor-module`, new session; the prompt gives the target boundary and the evidence from the audit.
+* audit was informational only → say the workflow is complete.

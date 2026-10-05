@@ -60,3 +60,14 @@ Any property you state as a guarantee, in a docstring or a commit message, must 
 Do not derive expected behavior from existing code when a specification defines it.
 
 End with a concise mapping of acceptance criteria to `TESTS.md` IDs, the verification results, and the confirmation that no test file was modified by this session (`git diff --name-only` output).
+
+## Next step
+
+End with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt).
+
+Routing:
+
+* all slices green → independent reviews: `tester` and `code-reviewer` (and `security-reviewer` when security is relevant), each in a fresh context — launch them as agents from this session or give one prompt per reviewer for a new session. Each prompt gives the spec path, the ADRs, `TESTS.md`, the branch and the diff range to review.
+* reviews done and findings fixed → `pre-delivery-check`, continue this session.
+* a review threshold was crossed mid-way (new module, new integration, three increments, unplanned design decision) → the reviews above before the next slice.
+* a test is disputed → `test-writer` agent with the evidence (see "When a test looks wrong"); the user decides if the disagreement remains.

@@ -27,3 +27,13 @@ description: Start a new feature with the right level of rigor. Use when beginni
 Trigger an independent review as soon as a review threshold is crossed (new module, new external integration, three increments, unplanned design decision), not once everything is finished.
 
 Do not create ceremony for trivial work. Use the smallest workflow that provides sufficient confidence.
+
+## Next step
+
+End with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt).
+
+Routing:
+
+* product ambiguity → `product-owner`, new session mandatory (it must not read code); the prompt describes the need and the open questions, no code.
+* architectural decision to preserve → `architect`, new session recommended; the prompt gives the spec path and the decision to make.
+* otherwise → `tdd-implementation`, continue this session; the prompt restates the spec path, the plan and the first slice.

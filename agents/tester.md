@@ -137,3 +137,12 @@ List important behaviors that are not adequately covered.
 List the commands executed and their result.
 
 If nothing meaningful is wrong, explicitly say so instead of inventing findings.
+
+### Next step
+
+End with the **Next step** block defined in `AGENTS.md`. Your report goes to the implementation session or the user:
+
+* verdict blocking → corrections in the implementation session (`tdd-implementation`, `bug-investigation` or `refactor-module`, whichever produced the change); the prompt lists the findings to fix by severity, with their location.
+* verdict non-blocking → `pre-delivery-check`, in the implementation session, listing the accepted non-blocking findings.
+
+Write the prompt; do not perform the next step yourself.

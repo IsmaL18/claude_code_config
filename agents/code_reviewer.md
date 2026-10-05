@@ -188,3 +188,12 @@ List any durable convention, architectural decision, or repository trap that sho
 End with a short assessment of whether the change is ready to proceed to delivery.
 
 If the implementation is good, approve it clearly instead of inventing issues.
+
+### Next step
+
+End with the **Next step** block defined in `AGENTS.md`. Your report goes to the implementation session or the user:
+
+* verdict blocking → corrections in the implementation session (`tdd-implementation`, `bug-investigation` or `refactor-module`, whichever produced the change); the prompt lists the findings to fix by severity, with their location.
+* verdict non-blocking → `pre-delivery-check`, in the implementation session, listing the accepted non-blocking findings.
+
+Write the prompt; do not perform the next step yourself.

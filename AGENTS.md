@@ -250,6 +250,39 @@ Record this in the project memory, not in a repository file: progress state is n
 
 ---
 
+### End every role with the next step and its prompt
+
+When a role finishes (product owner, architect, implementation, test writer, reviewer, delivery, bug investigation, refactoring, bootstrap, audit…), its last output to the user is a **Next step** block:
+
+````markdown
+## Next step
+
+**Role:** <role> — skill `<skill>` (or agent `<agent>`)
+**Session:** new session (mandatory | recommended) | continue this session | launch as agent from the implementation session
+**Why:** <one line: what this step resolves>
+
+Prompt to send:
+
+```text
+Use the `<skill>` skill.
+
+<self-contained prompt>
+```
+
+**Alternatives:** <only when another next step is credible, with its condition — e.g. "if the spec needs no architectural decision: `tdd-implementation`">
+````
+
+Rules for the prompt:
+
+* **Self-contained.** A new session has none of this context: give the repository, the paths of the spec, ADRs, `TESTS.md` and branch, what is done, what remains, and the open questions or review findings to process.
+* **Respect the boundary of the next role.** The prompt for `product-owner` contains no code or implementation detail; the brief for `test-writer` contains no implementation idea; the prompt for a reviewer does not argue that the change is correct.
+* **Pick one.** Recommend a single next step; list alternatives only with the condition that would select them.
+* **Say when the workflow ends.** If nothing remains (delivered, audit only), say so instead of inventing a step, and give the follow-up prompt only if a follow-up was identified.
+
+The routing for each role is in the "Next step" section of its skill or agent. This block complements the memory hand-off above: the memory records the state, the block tells the user what to launch.
+
+---
+
 ## 3. Repository structure
 
 Use this structure when appropriate:

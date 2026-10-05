@@ -32,3 +32,12 @@ Act as a software architect. Do not implement the feature.
 9. Update `ARCHITECTURE.md` only if the decision changes durable architectural guidance.
 
 Do not create an ADR for ordinary implementation details.
+
+## Next step
+
+End with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt).
+
+Routing:
+
+* the decision is recorded → `tdd-implementation`, new session recommended; the prompt gives the spec path, the ADR path(s), the confirmed constraints and the first slice to implement.
+* the spec turned out to be ambiguous or contradictory → `product-owner`, new session mandatory; the prompt lists the product questions only, without code or architecture detail.

@@ -23,3 +23,14 @@ description: Investigate and fix a software bug systematically. Use when behavio
 After two similar failed correction attempts, stop changing code and reassess the diagnosis and context.
 
 End with: root cause, fix, regression test, checks run, and any remaining uncertainty.
+
+## Next step
+
+End with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt).
+
+Routing:
+
+* fix done and verified → `code-reviewer` (and `security-reviewer` if the bug touched a security boundary), fresh context — as an agent or a new-session prompt with the bug description, root cause, regression test ID and diff range.
+* reviews done → `pre-delivery-check` then `deliver`, continue this session.
+* root cause not established after two attempts → stay in `bug-investigation` in a new session; the prompt gives the reproduction, the hypotheses already ruled out and the evidence collected.
+* the "bug" is actually missing or unclear behavior → `product-owner`, new session mandatory.
