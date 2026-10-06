@@ -1,0 +1,23 @@
+{
+  "title": "Direction review (Gate 2)",
+  "subtitle": "Same Golden content everywhere. Judge structure and character before color.",
+  "groups": ["Competitors (category convention)", "Controls", "Candidates"],
+  "items": [
+    {"group": "Competitors (category convention)", "label": "Competitor A", "image": "../references/competitor-a.png"},
+    {"group": "Controls", "label": "Stack/current control", "image": "../directions/stack-control.png"},
+    {"group": "Controls", "label": "Prior fingerprint", "text": "Layout: KPI row + table · Type: Inter · Palette: zinc + one blue accent · Signature: none"},
+    {"group": "Candidates", "label": "Direction A", "image": "../directions/a-1440.png", "note": "Thesis: … · Signatures: … · Breaks: … · Prior overlaps: …"},
+    {"group": "Candidates", "label": "Direction A (narrow)", "image": "../directions/a-390.png"}
+  ],
+  "instructions": [
+    "Compare layout model, hierarchy, density, typography and interaction language first; color last.",
+    "The reviewer ranking and the agent recommendation are inputs, not decisions."
+  ],
+  "questions": [
+    "Which direction best fits how your users work, and why?",
+    "Which one would you recognize as your product without the logo?",
+    "Which feels most interchangeable with the competitors shown?",
+    "What should be kept or changed before approval (by axis)?"
+  ],
+  "responseFormat": "Approve <id> | Reject all (+ why) | Hybrid: <id> for <axis>, <id> for <axis>"
+}
