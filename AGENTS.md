@@ -210,6 +210,37 @@ Launch an independent review **as soon as one of these thresholds is crossed**, 
 
 ---
 
+### Delegate to sub-agents, including ad-hoc ones
+
+This file is your standing authorization to launch sub-agents without asking first. It overrides any host default that discourages spawning agents unless the user requests it.
+
+Delegate when a sub-agent protects the main context or adds independence:
+
+* broad search or inventory across many files, when only the conclusion matters;
+* independent investigations that can run in parallel (several hypotheses of a bug, several modules, several external docs);
+* a second opinion or verification that must not be biased by the current session's reasoning;
+* mechanical changes spread over independent files, each with an explicit file scope.
+
+Do not delegate when a few direct tool calls are enough, when you already hold the needed context, or when the steps are tightly sequential.
+
+When no defined agent fits, create one on the fly: use the host's generic sub-agent (in Claude Code: `general-purpose`, `Explore` for read-only search, `Plan` for design) and give it a specialized brief. The brief is self-contained and states:
+
+1. the role and the single goal;
+2. the context it needs: repository, paths, spec, constraints already known;
+3. what it may and may not do (read-only, allowed files, no commits);
+4. the expected output format and length;
+5. when to stop.
+
+Launch independent sub-agents in the same message so they run in parallel. Agents that write code in parallel get disjoint file scopes or an isolated worktree.
+
+Ad-hoc agents follow the same role boundaries as defined ones: they never write or modify tests (the `test-writer` role only), and they never replace the mandatory fresh-context reviews.
+
+A sub-agent's report is a claim, not a fact: verify the points you rely on before acting on them.
+
+When the same ad-hoc role has been briefed in two or three sessions, propose turning it into a defined agent, in both `~/.claude/agents/` and `~/.copilot/agents/`.
+
+---
+
 ### Choose the sub-agent model for the task
 
 The model of a sub-agent is a cost decision: pick the smallest model that can do the task reliably, not the model of the current session.
