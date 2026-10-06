@@ -32,7 +32,7 @@ When a test looks wrong, stop and send it back to the test-writer with the evide
 
 ## The loop, per slice
 
-1. **Red — delegated.** Launch the `test-writer` agent with a brief containing: the spec path or acceptance criteria, the confirmed seams, the slice to cover, and the test conventions of the repository (location, runner, command). Do not include your implementation ideas. For the next slices, continue the same test-writer agent rather than starting a new one, so it keeps the test-side context.
+1. **Red — delegated.** Launch the `test-writer` agent with a brief containing: the spec path or acceptance criteria, the confirmed seams, the slice to cover, and the test conventions of the repository (location, runner, command). Do not include your implementation ideas. For the next slices, continue the same test-writer agent rather than starting a new one, so it keeps the test-side context. Choose its model for the slice (see "Choose the sub-agent model for the task" in `AGENTS.md`): its default `sonnet` for ordinary slices, `opus` for a tricky seam or a disputed test.
 2. **Check the red.** Run the tests it reports. They must fail for the expected reason (missing behavior or missing interface). If they fail for another reason, or already pass, send that back to the test-writer — do not fix it yourself.
 3. **Freeze the tests.** Stage the test files and `TESTS.md` the test-writer reported (`git add <files>`): the index is now the baseline. Do not stage anything else, and do not stage anything until the slice is green.
 4. **Green.** Inspect the implementation in detail and write only enough production code to make the tests pass. Don't anticipate future tests or add speculative features.
@@ -67,7 +67,7 @@ End with the **Next step** block defined in `AGENTS.md` (role, skill, session, r
 
 Routing:
 
-* all slices green → independent reviews: `tester` and `code-reviewer` (and `security-reviewer` when security is relevant), each in a fresh context — launch them as agents from this session or give one prompt per reviewer for a new session. Each prompt gives the spec path, the ADRs, `TESTS.md`, the branch and the diff range to review.
+* all slices green → independent reviews: `tester` and `code-reviewer` (and `security-reviewer` when security is relevant), each in a fresh context — launch them as agents from this session (model chosen per `AGENTS.md`: `sonnet` by default, `opus` for a structural or high-risk diff) or give one prompt per reviewer for a new session. Each prompt gives the spec path, the ADRs, `TESTS.md`, the branch and the diff range to review.
 * reviews done and findings fixed → `pre-delivery-check`, continue this session.
 * a review threshold was crossed mid-way (new module, new integration, three increments, unplanned design decision) → the reviews above before the next slice.
 * a test is disputed → `test-writer` agent with the evidence (see "When a test looks wrong"); the user decides if the disagreement remains.

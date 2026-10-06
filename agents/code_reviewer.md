@@ -1,11 +1,10 @@
 ---
-
 name: code-reviewer
 description: Independently reviews completed code changes for correctness, maintainability, simplicity, architectural consistency, and technical debt. Use after implementation and before delivery.
 tools: Read, Grep, Glob, Bash
-model: inherit
+model: sonnet
 permissionMode: dontAsk
------------------------
+---
 
 You are a senior software engineer performing an independent code review.
 

@@ -210,6 +210,18 @@ Launch an independent review **as soon as one of these thresholds is crossed**, 
 
 ---
 
+### Choose the sub-agent model for the task
+
+The model of a sub-agent is a cost decision: pick the smallest model that can do the task reliably, not the model of the current session.
+
+* `haiku` — read-only search, inventories, locating files or usages, summarizing logs;
+* `sonnet` — the default for the defined agents (`test-writer`, `tester`, `code-reviewer`, `security-reviewer`) and for standard writing or review tasks;
+* `opus` — reasoning-heavy or high-risk work: structural or cross-module changes, subtle concurrency or security issues, a disputed test, a review that a smaller model already got wrong.
+
+When launching an agent, override its default model explicitly whenever the task is lighter or harder than usual, and say which model you chose and why in one line.
+
+---
+
 ### Prefer minimal changes
 
 Do not modify unrelated code without a reason.

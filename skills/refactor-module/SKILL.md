@@ -7,7 +7,7 @@ description: Refactor or extract a module incrementally while preserving behavio
 
 1. Define the target boundary and the reason for the refactor.
 2. Map current behavior, entry points, dependencies, callers, state, and tests.
-3. When coverage is insufficient, have the `test-writer` agent establish characterization or regression tests before structural changes (recorded in `TESTS.md`).
+3. When coverage is insufficient, have the `test-writer` agent establish characterization or regression tests before structural changes (recorded in `TESTS.md`). Choose its model per `AGENTS.md` ("Choose the sub-agent model for the task").
    The refactoring session must not modify tests. If a test is coupled to internals and blocks the refactor, send it back to the `test-writer` — a behavior-preserving refactor never needs to change what a good test asserts.
 4. Identify the smallest coherent functional unit to extract or reorganize.
 5. Plan dependency direction and public interfaces before moving code.
