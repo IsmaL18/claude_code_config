@@ -263,6 +263,32 @@ Minimize the surface area touched by each change.
 
 ---
 
+### Keep the context short: compact when it pays off
+
+Tokens are a cost. When the context becomes long and compacting is worthwhile, compact or compress the conversation with the commands available instead of dragging the full history along.
+
+Compact when:
+
+* a phase is finished (exploration done, plan agreed, a slice implemented and verified) and the next one does not need the raw history;
+* the context is full of bulky outputs already digested (long logs, large file reads, search results);
+* the session switches to an unrelated subtask.
+
+Do not compact when:
+
+* you are in the middle of a delicate diagnosis or an unfinished edit whose details are not written down yet;
+* the context is short, or the next steps still rely on exact outputs you would lose.
+
+How:
+
+1. Before compacting, make sure what matters survives: the decisions, the files touched, the open questions, what is not verified (see "Hand off before ending a session" for the content, kept in the project memory).
+2. Use `/compact` with a focus instruction naming what to keep (e.g. `/compact keep the agreed plan, the failing test names and the files modified`). If you cannot run it yourself, tell the user in one line why now is a good moment and give the exact command to type.
+3. Prefer `/clear` plus a self-contained prompt (the "Next step" block) when the next step is a new role or a fresh context anyway.
+4. Prefer delegating bulky exploration to a sub-agent so the raw output never enters the main context.
+
+Compacting never replaces a mandatory fresh-context role (`product-owner`, `test-writer`, reviewers): those still start in a new session.
+
+---
+
 ### Capitalize mistakes
 
 When a mistake reveals reusable knowledge:
