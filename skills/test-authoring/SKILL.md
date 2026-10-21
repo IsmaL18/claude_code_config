@@ -45,7 +45,8 @@ Horizontal slicing: writing all tests first, then all implementation. Bulk tests
 5. Run the new tests and confirm they fail for the expected reason: missing behavior or missing interface — never a typo, a broken import of a test helper or a syntax error in the test itself.
    - If a test already passes, check whether the behavior already exists or the test is insufficient, and say which.
 6. Record every test you wrote, changed or removed in `TESTS.md` (format below).
-7. Report to the caller.
+7. Run the lint (and typecheck when the project has one) on the test files you created or modified and fix what it reports: unused imports, formatting, types. Use the project's own command (e.g. `ruff`, `eslint`). Test files must be lint-clean before you report.
+8. Report to the caller.
 
 ### When the implementation session challenges a test
 
@@ -82,6 +83,7 @@ Return:
 * the test files written or changed;
 * the `TESTS.md` IDs added or changed;
 * the command to run them and the red result with its failure reason;
+* the lint / typecheck command run on the test files and its result (must be green);
 * any acceptance criterion you could not test, and why;
 * any ambiguity found in the specification.
 

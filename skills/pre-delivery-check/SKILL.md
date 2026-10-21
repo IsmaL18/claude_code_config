@@ -27,7 +27,10 @@ Do not introduce new functionality during this workflow.
    - obvious secrets or credentials;
    - unresolved TODOs introduced by the change;
    - missing durable documentation.
-5. Confirm relevant review findings have been resolved or explicitly accepted.
+5. Confirm relevant review findings have been resolved or explicitly accepted, by whom it belongs to:
+   - **non-blocking findings** on production code may be accepted by this session, if each is listed in the report with a one-line reason;
+   - **findings about tests** are never accepted by this session: they go to the `test-writer` agent, or to the user if there is a disagreement;
+   - **blocking findings** need the user's agreement to be accepted.
 6. Do not claim success for checks that were not executed.
 
 Return a concise checklist with:

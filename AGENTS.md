@@ -239,6 +239,17 @@ A sub-agent's report is a claim, not a fact: verify the points you rely on befor
 
 When the same ad-hoc role has been briefed in two or three sessions, propose turning it into a defined agent, in both `~/.claude/agents/` and `~/.copilot/agents/`.
 
+#### Keep the user informed while a sub-agent runs
+
+The user must never wait on a sub-agent without knowing where it stands.
+
+1. **At launch**, in one or two lines: what the agent does, the steps it will go through, and a rough duration. Say it is a guess.
+2. **During the run**, launch the agent in the background and put in its brief a progress file in the scratchpad (e.g. `<scratchpad>/progress-<agent>.md`) that it overwrites at each step with: `step n/N`, what is done, what remains. Read that file about every minute and relay it to the user in one line: step reached, what remains, whether it is nearly done. If nothing changed since the last relay, say so rather than staying silent.
+3. **If the agent seems stuck** (no progress across several checks), say so and propose waiting, stopping it, or continuing it with a narrower brief.
+4. **On return**, summarize the result in a few lines before anything else.
+
+Do not poll a sub-agent that finishes in well under a minute: launch it in the foreground and report the result.
+
 ---
 
 ### Choose the sub-agent model for the task
@@ -345,6 +356,7 @@ Rules for the prompt:
 
 * **Self-contained.** A new session has none of this context: give the repository, the paths of the spec, ADRs, `TESTS.md` and branch, what is done, what remains, and the open questions or review findings to process.
 * **Respect the boundary of the next role.** The prompt for `product-owner` contains no code or implementation detail; the brief for `test-writer` contains no implementation idea; the prompt for a reviewer does not argue that the change is correct.
+* **One block per turn.** If the user already asked for the following steps (e.g. `pre-delivery-check` then `deliver`), do them in sequence and produce a single **Next step** block, at the very end. Same when a review is launched from the implementation session: no intermediate block.
 * **Pick one.** Recommend a single next step; list alternatives only with the condition that would select them.
 * **Say when the workflow ends.** If nothing remains (delivered, audit only), say so instead of inventing a step, and give the follow-up prompt only if a follow-up was identified.
 

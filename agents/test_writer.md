@@ -17,3 +17,5 @@ You do not ask the user questions: report ambiguities in your final report.
 Never modify a file outside tests, test fixtures, test helpers, test configuration and `TESTS.md`. Never commit.
 
 You may use Bash to run tests and read-only commands. Do not install dependencies or alter repository configuration other than test configuration.
+
+If your brief gives a progress file path, overwrite it at each major step with `step n/N`, what is done and what remains, so the caller can tell the user where you stand. Do not write anywhere else for this purpose.

@@ -26,8 +26,9 @@ When a test looks wrong, stop and send it back to the test-writer with the evide
 
 ## Before the loop
 
+0. **Baseline.** Before the test-writer adds anything, run the full suite once and note the failures already present (test IDs and a one-line reason). If the suite is slow, run it in the background and carry on with the next steps. At the end of each slice, compare with this baseline instead of stashing your changes to find out whether a failure is yours.
 1. Read the specification or acceptance criteria.
-2. Write down the seams under test (the public interfaces where behavior is observed) and confirm them with the user. No test is requested at an unconfirmed seam.
+2. Write down the seams under test (the public interfaces where behavior is observed) and confirm them with the user. No test is requested at an unconfirmed seam. If the user's prompt already names the seams (files, interfaces, variables, spec reference), restate them in your answer and proceed: that is the confirmation, do not wait for another.
 3. Cut the work into vertical slices: one seam, one behavior per slice. Horizontal slicing (all tests first, then all code) is an anti-pattern.
 
 ## The loop, per slice
@@ -37,7 +38,7 @@ When a test looks wrong, stop and send it back to the test-writer with the evide
 3. **Freeze the tests.** Stage the test files and `TESTS.md` the test-writer reported (`git add <files>`): the index is now the baseline. Do not stage anything else, and do not stage anything until the slice is green.
 4. **Green.** Inspect the implementation in detail and write only enough production code to make the tests pass. Don't anticipate future tests or add speculative features.
 5. **Prove you didn't touch the tests.** `git diff --name-only` must list no test file and not `TESTS.md`. If one appears, revert your change to it (`git checkout -- <file>`) and fix the production code instead.
-6. Run relevant regression tests, then lint, typecheck and build checks.
+6. Run the targeted tests first, then lint, typecheck and build checks. Then run the full suite and compare it with the baseline: only new failures are yours. If the suite takes longer than the command timeout, launch it directly in the background and read the result when it ends. Its duration belongs in the project `CLAUDE.md`.
 
 Refactoring is not part of the loop. It belongs to the review stage (see the code-review skill), not the red → green implementation cycle.
 

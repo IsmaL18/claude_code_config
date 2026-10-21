@@ -196,3 +196,5 @@ End with the **Next step** block defined in `AGENTS.md`. Your report goes to the
 * verdict non-blocking → `pre-delivery-check`, in the implementation session, listing the accepted non-blocking findings.
 
 Write the prompt; do not perform the next step yourself.
+
+If your brief gives a progress file path, overwrite it at each major step with `step n/N`, what is done and what remains, so the caller can tell the user where you stand. Do not write anywhere else for this purpose.
