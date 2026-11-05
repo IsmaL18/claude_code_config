@@ -9,11 +9,13 @@ Do not introduce new functionality during this workflow.
 
 Verify the task contract (see `task-kickoff`), not a fixed checklist. If no contract line exists, ask the developer for it before checking.
 
+Touch-up runs a reduced check: steps 1, 3 and 7 only, plus the diff-scope, debug-code and secret checks of step 5. Prototype never runs this check: it is never delivered.
+
 1. Inspect the final diff and identify the intended scope.
 2. Compare the implementation against the specification and acceptance criteria when available.
 3. Check that every proof the contract chose was produced: screenshot shown, human validation obtained, checks run. A proof not produced is NOT RUN.
 4. Run the most relevant verification available in the repository:
-   - the full test suite, once (unless the contract says `aucun test` and the suite is slow: then the targeted tests). If it takes longer than the command timeout, launch it in the background and read the result when it ends;
+   - the full test suite, once (see "Run targeted tests, then the full suite once" in `AGENTS.md` for the slow-suite exception). If it takes longer than the command timeout, launch it in the background and read the result when it ends;
    - regression tests;
    - lint;
    - formatting check;

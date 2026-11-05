@@ -165,7 +165,7 @@ If no meaningful vulnerability is found, explicitly say so instead of manufactur
 
 ### Next step
 
-End with the **Next step** block defined in `AGENTS.md`. Your report goes to the implementation session or the user:
+When the brief's contract sets Next step to `oui`, end with the **Next step** block defined in `AGENTS.md`. Your report goes to the implementation session or the user:
 
 * verdict blocking → corrections in the implementation session (`tdd-implementation`, `bug-investigation` or `refactor-module`, whichever produced the change); the prompt lists the findings to fix by severity, with their location.
 * verdict non-blocking → `pre-delivery-check`, in the implementation session, listing the accepted non-blocking findings.

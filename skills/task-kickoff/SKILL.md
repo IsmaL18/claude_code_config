@@ -17,6 +17,7 @@ The form sets the **contract** of the task. The developer decides. You recommend
 * Inspect the request and the affected code before round 1, just enough to recommend a level. Do not start the work.
 * Do not start the work before the contract is validated.
 * Skip a round or a question that has no object for the chosen level. Never skip round 1 unless a workflow skill was invoked directly.
+* For Touch-up, Prototype and Bug, replace rounds 2 and 3 with one question: confirm the preset (`oui`) or adjust it (`ajuster`, then ask rounds 2 and 3).
 
 ## Round 1 — Level
 
@@ -30,7 +31,7 @@ One question: the level. Options (up to 4 per call; give the 3 most plausible pl
 | Bug | Bug | Incorrect, flaky or unexplained behavior. | `bug-investigation` |
 | Feature | Feature | New or changed behavior. | `start-feature` → `tdd-implementation` |
 | Structural | Structurel | New subsystem, new external integration, database architecture, auth, major cross-module change, architectural decision. | `start-feature` → `tdd-implementation` |
-| UI redesign | Refonte UI | Global rework of screens, layout or visual language, with no change to API contracts or data logic. | `tdd-implementation` when tests are chosen |
+| UI redesign | Refonte UI | Global rework of screens, layout or visual language, with no change to API contracts or data logic. | none |
 | Refactor | Refactor | Structural change without intended behavior change. | `refactor-module` |
 
 A touch-up that needs any change outside its entry criteria is not a touch-up. Split it: the presentation part stays Touch-up, the rest becomes Feature.
@@ -39,7 +40,9 @@ A touch-up that needs any change outside its entry criteria is not a touch-up. S
 
 **Prototype** works on a dedicated branch (`proto/<name>`). The prototype is never merged as is. To ship it, start a new task at the target level with the prototype as reference.
 
-When a workflow skill is invoked directly (`/bug-investigation`, `/refactor-module`, `/tdd-implementation`, `/start-feature`…), the level comes from the skill. Skip round 1. Ask rounds 2 and 3.
+When a workflow skill is invoked directly (`/bug-investigation`, `/refactor-module`, `/tdd-implementation`, `/start-feature`…), the level comes from the skill. Skip round 1. Ask rounds 2 and 3. Exception: `tdd-implementation` and `start-feature` serve both Feature and Structural, whose presets differ. Replace round 1 with one question, Feature or Structural.
+
+Roles that open a fresh session (`product-owner`, `architect`, `test-writer`, reviewers, and `pre-delivery-check` or `deliver` when started in a new session) do not run the form. They inherit the contract line from the prompt or brief that opened them. If it is missing, ask the developer for it before working.
 
 ## Round 2 — Framework
 
@@ -74,8 +77,8 @@ Test execution is fixed, not asked: targeted tests during the work, the full sui
 | Bug | non | non | fusionnée* | non | sélection stricte (1 regression test) | test-writer neuf* | tests ciblés |
 | Feature | if ambiguous | if decision | fusionnée* | oui | sélection stricte | test-writer neuf* | tests ciblés + lint |
 | Structural | oui | oui | séparées | oui | plan validé | test-writer neuf | tests ciblés + lint/typecheck/build |
-| UI redesign | non (mockup or reference capture) | non | fusionnée | oui | sélection stricte, behavior only | même session | capture + validation humaine |
-| Refactor | non | if decision | fusionnée | oui | sélection stricte (characterization) | test-writer neuf | tests ciblés + lint/typecheck/build |
+| UI redesign | non (mockup or reference capture) | non | fusionnée* | oui | sélection stricte, behavior only | même session | capture + validation humaine |
+| Refactor | non | if decision | fusionnée* | oui | sélection stricte (characterization) | test-writer neuf* | tests ciblés + lint/typecheck/build |
 
 \* Default only when the task touches a risk zone. Otherwise recommend `aucune` and `même session`.
 

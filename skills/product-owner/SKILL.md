@@ -41,12 +41,12 @@ Do not prescribe architecture unless it is part of an explicit product constrain
 
 ## Next step
 
-End with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt).
+When the contract sets Next step to `oui`, end with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt). Otherwise, end with the 3-line summary. This session is fresh: the contract line comes from the prompt that opened it.
 
 Routing:
 
 * the spec implies an architectural decision (new subsystem, external integration, data model, auth, cross-module) → `architect`, new session recommended; the prompt gives the spec path and the decision to make.
-* otherwise → `tdd-implementation`, new session; the prompt gives the contract line, the spec path, the acceptance criteria IDs and asks to confirm the seams before calling the `test-writer`.
+* otherwise → `tdd-implementation`, new session; the prompt gives the contract line, the spec path, the acceptance criteria IDs and asks to proceed per the contract (test strategy, separation, plan gate).
 * open questions remain that block implementation → stay in `product-owner` and say which answers are needed.
 
 Since this session read no code, the prompt never mentions implementation details.

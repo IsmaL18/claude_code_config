@@ -23,7 +23,7 @@ Levels and their carriers:
 * **Bug** — `bug-investigation`. Do not patch symptoms. After two similar failed attempts, stop and reassess the diagnosis.
 * **Feature** — `start-feature`, then `tdd-implementation`.
 * **Structural** — `start-feature`, then `tdd-implementation`, full role chain below.
-* **UI redesign** — `tdd-implementation` when tests are chosen.
+* **UI redesign** — no skill. The contract still sets tests and proof.
 * **Refactor** — `refactor-module`.
 
 Other skills, invoked explicitly: `existing-project-bootstrap`, `architecture-audit`.
@@ -37,13 +37,13 @@ A fresh context is mandatory where independence is the point. Continuity is an a
 | `product-owner` | spec chosen | fresh, **mandatory** | `PRODUCT.md`, `USER.md`, `specs/` | source code | `specs/NNN-*.md` |
 | `architect` | ADR chosen | fresh, recommended | spec, `ARCHITECTURE.md`, ADRs, code structure | — | `docs/adr/NNNN-*.md` |
 | `test-writer` (skill `test-authoring`) | separation chosen | fresh, **mandatory** | spec, ADRs, public interfaces, existing tests, `TESTS.md` | implementation internals | tests + `TESTS.md` |
-| implementation | always | continuous | everything | — | production code; tests only if separation is `même session` |
+| implementation | every level except Out of workflow | continuous | everything | — | production code; tests only if separation is `même session` |
 | `code-reviewer` (merged mode) | reviews `fusionnée` | fresh, **mandatory** | everything | — | findings only |
 | `tester` + `code-reviewer` + `security-reviewer` | reviews `séparées` | fresh, **mandatory** | everything | — | findings only |
 | corrections | after reviews | continuous | everything | — | code + amended ADRs |
-| `pre-delivery-check` → `deliver` | always | continuous | everything | — | delivery |
+| `pre-delivery-check` → `deliver` | Bug, Feature, Structural, UI redesign, Refactor; Touch-up: reduced check only (see `pre-delivery-check`); Prototype: never | continuous | everything | — | delivery |
 
-`security-reviewer` runs only when security is relevant.
+`security-reviewer` runs only with reviews `séparées`, when security is relevant. In merged mode, `code-reviewer` flags the security issues it notices as findings, with no escalation.
 
 When reviews are not `aucune`, the implementation session is never the only reviewer of its own work.
 
@@ -119,7 +119,7 @@ Automated visual regression (`toHaveScreenshot`, native snapshots) only when the
 ### Run targeted tests, then the full suite once
 
 * Run only the tests of the touched scope during the work.
-* Run the full suite once, in `pre-delivery-check`.
+* Run the full suite once, in `pre-delivery-check`. Exception: when the contract says `aucun test` and the suite is slow, run the targeted tests instead.
 * Run a full baseline before the work only when the suite is fast. Otherwise, run a targeted baseline.
 
 ---
@@ -310,6 +310,8 @@ Rules for the prompt:
 * **One block per turn.** If the user already asked for the following steps (e.g. `pre-delivery-check` then `deliver`), do them in sequence and produce a single **Next step** block, at the very end. Same when a review is launched from the implementation session: no intermediate block.
 * **Pick one.** Recommend a single next step; list alternatives only with the condition that would select them.
 * **Say when the workflow ends.** If nothing remains (delivered, audit only), say so instead of inventing a step, and give the follow-up prompt only if a follow-up was identified.
+
+Add **Seuils franchis** before the block when a threshold was crossed (see `task-kickoff`).
 
 The routing for each role is in the "Next step" section of its skill or agent. This block complements the memory hand-off above: the memory records the state, the block tells the user what to launch.
 

@@ -34,6 +34,8 @@ When the brief says reviews `fusionnée`, you are the only reviewer. Also do, be
 
 Report the acceptance-criteria mapping in a section **Acceptance criteria** before **Findings**. Do not perform exhaustive adversarial testing.
 
+No `security-reviewer` runs in merged mode. Report any security issue you notice in the diff as a finding. Do not run a security audit and do not request one.
+
 ## Understand the change
 
 When possible:

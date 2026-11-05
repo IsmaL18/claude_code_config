@@ -33,7 +33,7 @@ End with:
 
 ## Next step
 
-End with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt).
+When the contract sets Next step to `oui`, end with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt). Otherwise, end with the 3-line summary.
 
 Routing — choose from the bootstrap roadmap:
 
