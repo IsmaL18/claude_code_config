@@ -46,7 +46,7 @@ End with the **Next step** block defined in `AGENTS.md` (role, skill, session, r
 Routing:
 
 * the spec implies an architectural decision (new subsystem, external integration, data model, auth, cross-module) → `architect`, new session recommended; the prompt gives the spec path and the decision to make.
-* otherwise → `tdd-implementation`, new session; the prompt gives the spec path, the acceptance criteria IDs and asks to confirm the seams before calling the `test-writer`.
+* otherwise → `tdd-implementation`, new session; the prompt gives the contract line, the spec path, the acceptance criteria IDs and asks to confirm the seams before calling the `test-writer`.
 * open questions remain that block implementation → stay in `product-owner` and say which answers are needed.
 
 Since this session read no code, the prompt never mentions implementation details.

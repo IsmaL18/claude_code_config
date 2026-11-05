@@ -9,110 +9,43 @@ The goal is to use the **smallest workflow that provides sufficient confidence**
 
 ---
 
-## 1. Classify the task before working
+## 1. Start every task with `task-kickoff`
 
-Before making changes, identify the task category and adapt the workflow accordingly.
+Every task starts with the `task-kickoff` skill. No exception.
 
-### Trivial change
+The form sets the task contract: level, spec, ADR, reviews, Next step, test strategy, code/test separation, proof of done. The developer validates it. Every rule below applies within that contract.
 
-Examples:
+Levels and their carriers:
 
-* typo
-* rename
-* small configuration change
-* obvious local modification with no behavioral impact
+* **Out of workflow** — no rule of this workflow applies.
+* **Touch-up** — presentation only. No skill.
+* **Prototype** — disposable code on a dedicated branch. Never merged as is.
+* **Bug** — `bug-investigation`. Do not patch symptoms. After two similar failed attempts, stop and reassess the diagnosis.
+* **Feature** — `start-feature`, then `tdd-implementation`.
+* **Structural** — `start-feature`, then `tdd-implementation`, full role chain below.
+* **UI redesign** — `tdd-implementation` when tests are chosen.
+* **Refactor** — `refactor-module`.
 
-Workflow:
+Other skills, invoked explicitly: `existing-project-bootstrap`, `architecture-audit`.
 
-1. Inspect the affected files.
-2. Make the smallest possible change.
-3. Run the relevant targeted checks.
-4. Report what changed.
+### Session boundaries
 
-Do not create specs or ADRs unnecessarily.
+A fresh context is mandatory where independence is the point. Continuity is an asset everywhere else.
 
----
+| Step | When | Context | May read | Must NOT read | Produces |
+|---|---|---|---|---|---|
+| `product-owner` | spec chosen | fresh, **mandatory** | `PRODUCT.md`, `USER.md`, `specs/` | source code | `specs/NNN-*.md` |
+| `architect` | ADR chosen | fresh, recommended | spec, `ARCHITECTURE.md`, ADRs, code structure | — | `docs/adr/NNNN-*.md` |
+| `test-writer` (skill `test-authoring`) | separation chosen | fresh, **mandatory** | spec, ADRs, public interfaces, existing tests, `TESTS.md` | implementation internals | tests + `TESTS.md` |
+| implementation | always | continuous | everything | — | production code; tests only if separation is `même session` |
+| `code-reviewer` (merged mode) | reviews `fusionnée` | fresh, **mandatory** | everything | — | findings only |
+| `tester` + `code-reviewer` + `security-reviewer` | reviews `séparées` | fresh, **mandatory** | everything | — | findings only |
+| corrections | after reviews | continuous | everything | — | code + amended ADRs |
+| `pre-delivery-check` → `deliver` | always | continuous | everything | — | delivery |
 
-### Bug
+`security-reviewer` runs only when security is relevant.
 
-Use the `bug-investigation` skill.
-
-Do not repeatedly patch symptoms without understanding the failure.
-
-After two similar unsuccessful correction attempts, stop modifying code and reassess the diagnosis and context.
-
----
-
-### Small feature
-
-A small feature is local, low-risk, and does not introduce an architectural decision.
-
-Workflow:
-
-1. Explore the affected code.
-2. Clarify the expected behavior and acceptance criteria.
-3. Make a short implementation plan.
-4. Use `tdd-implementation` when behavior can be tested (tests come from the `test-writer` role, code from the implementation session).
-5. Run `pre-delivery-check`.
-
-A dedicated spec is optional if the feature is sufficiently small and unambiguous.
-
----
-
-### Standard feature
-
-Use the `start-feature` skill.
-
-Use the `product-owner` skill when the functional need or acceptance criteria require discussion with the user. When using this skill you shouldn't see the code to don't get influenced by it.
-
----
-
-### Structural or high-risk feature
-
-Examples:
-
-* new subsystem
-* new external integration
-* database architecture change
-* authentication or authorization change
-* major cross-module feature
-* important architectural decision
-
-Use the complete workflow. What matters is less the order of the steps than **where the session boundaries are**: a fresh context is mandatory where independence is the whole point, and continuity is an asset everywhere else.
-
-| Step | Context | May read | Must NOT read | Produces |
-|---|---|---|---|---|
-| `product-owner` | fresh, **mandatory** | `PRODUCT.md`, `USER.md`, `specs/` | source code | `specs/NNN-*.md` |
-| `architect` | fresh, recommended | spec, `ARCHITECTURE.md`, ADRs, code structure | — | `docs/adr/NNNN-*.md` |
-| `test-writer` (skill `test-authoring`) | fresh, **mandatory** | spec, ADRs, public interfaces, existing tests, `TESTS.md` | implementation internals | tests + `TESTS.md` |
-| `tdd-implementation` | continuous | everything | — | production code only, **never tests** |
-| `tester` / `security-reviewer` / `code-reviewer` | fresh, **mandatory** | everything | — | findings only |
-| corrections | continuous, following the reviews | everything | — | code + amended ADRs |
-| `pre-delivery-check` → `deliver` | continuous | everything | — | delivery |
-
-`security-reviewer` is mandatory only when security is relevant; the other two always are.
-
-Do not allow the implementation session to be the only reviewer of its own work.
-
----
-
-### Refactoring
-
-Use the `refactor-module` skill.
-
----
-
-### Existing project bootstrap
-
-Use the `existing-project-bootstrap` skill.
-
-Use the `architecture-audit` skill when a dedicated architecture analysis is required.
-
----
-
-### Architecture audit
-
-Use the `architecture-audit` skill.
+When reviews are not `aucune`, the implementation session is never the only reviewer of its own work.
 
 ---
 
@@ -147,43 +80,74 @@ Whenever possible, success must be verifiable by a machine:
 * validation scripts;
 * other repository checks.
 
-Avoid relying only on visual inspection or statements such as "this should work".
+The proof of done is the one set in the contract. A screenshot or a human validation is valid proof only when the contract chose it.
+
+Never claim done on statements such as "this should work".
 
 ---
 
 ### Test from requirements, not implementation
 
-When a specification or acceptance criteria exist:
+When the contract includes tests and a specification or acceptance criteria exist:
 
 1. derive tests from the expected behavior;
-2. avoid deriving them from the implementation;
+2. never derive them from the implementation;
 3. confirm new tests fail before implementing the behavior when practical;
 4. implement;
 5. confirm they pass;
 6. keep useful tests permanently.
 
-A bug that could regress should usually become a regression test.
+A bug that could regress gets a regression test, unless the contract says `aucun test`.
+
+---
+
+### What deserves a test
+
+Write a test only when all of these hold:
+
+* **Real risk.** A regression would cost more than the test costs to maintain: business rule, data, security, contract, critical path. At most one test per acceptance criterion, unless justified.
+* **Behavior, not shape.** Never assert DOM structure, CSS classes, exact non-contractual text or snapshots. Test the UI through accessible roles and observable effects.
+* **Highest fast level.** Prefer one fast integration test over several coupled unit tests. Do not unit-test a detail already covered.
+* **Not already guaranteed.** Never test what the typecheck, the lint, a schema or the design system already enforces.
+
+Visual and design rules belong to the lint, the design tokens or the design system. Never to a test.
+
+Automated visual regression (`toHaveScreenshot`, native snapshots) only when the project already has it or the user asks for it.
+
+---
+
+### Run targeted tests, then the full suite once
+
+* Run only the tests of the touched scope during the work.
+* Run the full suite once, in `pre-delivery-check`.
+* Run a full baseline before the work only when the suite is fast. Otherwise, run a targeted baseline.
 
 ---
 
 ### The one who writes the code never writes the tests
 
-Tests and production code are written by two separate roles, in two separate contexts:
+This rule applies when the contract sets separation to `test-writer en contexte neuf`. The developer chooses it at kickoff. It is the default for risk zones.
+
+When it applies, tests and production code are written by two separate roles, in two separate contexts:
 
 * the `test-writer` role (agent `test-writer`, skill `test-authoring`) writes and modifies tests, test fixtures, test helpers and test configuration, and records every test it writes in `TESTS.md` at the repository root;
 * the implementation session writes production code only.
 
 The implementation session **must never** create, modify, delete, skip, disable or weaken a test, a fixture, a snapshot, a test configuration or `TESTS.md` — not even to fix a typo, an import or an obviously wrong assertion. When a test looks wrong, it stops and sends the evidence back to the `test-writer`; if they disagree on the expected behavior, the user decides.
 
-This applies to every workflow that produces tests: features, bug fixes (regression tests), refactorings (characterization tests).
+When the contract sets separation to `même session`, the implementation session writes its tests, test-first when practical, follows "What deserves a test", and records every test in `TESTS.md`.
+
+`TESTS.md` records every test written, whoever the author.
 
 ---
 
-### An asserted invariant is a tested invariant
+### An asserted behavior is a tested behavior
 
-Any property stated as a guarantee — in an ADR, a `CLAUDE.md` and an `AGENTS.md`, a docstring or a commit message — must have a test that holds it, named so the assertion can be traced back to it.
+Any **behavior** stated as a guarantee — in an ADR, a `CLAUDE.md`, an `AGENTS.md`, a docstring or a commit message — must have a test that holds it, named so the assertion can be traced back to it.
 
 If you cannot write that test, you cannot write the assertion.
+
+Never state a visual or design rule as a guarantee. Enforce it with the lint, the design tokens or the design system.
 
 ---
 
@@ -196,17 +160,6 @@ A test with a simulated double proves your orchestration, never the contract of 
 ### Prove the full path before deepening it
 
 Before building depth on an external integration, make the thinnest possible end-to-end path work against the real system.
-
----
-
-### Trigger reviews on thresholds, not at the end
-
-Launch an independent review **as soon as one of these thresholds is crossed**, not once everything is finished:
-
-* a new module;
-* a new external integration (API, database, third-party format);
-* three implementation increments;
-* any design decision taken alone that no ADR anticipated.
 
 ---
 
@@ -233,11 +186,11 @@ When no defined agent fits, create one on the fly: use the host's generic sub-ag
 
 Launch independent sub-agents in the same message so they run in parallel. Agents that write code in parallel get disjoint file scopes or an isolated worktree.
 
-Ad-hoc agents follow the same role boundaries as defined ones: they never write or modify tests (the `test-writer` role only), and they never replace the mandatory fresh-context reviews.
+Ad-hoc agents follow the same role boundaries as defined ones: when separation applies, they never write or modify tests (the `test-writer` role only). They never replace the reviews set in the contract.
 
 A sub-agent's report is a claim, not a fact: verify the points you rely on before acting on them.
 
-When the same ad-hoc role has been briefed in two or three sessions, propose turning it into a defined agent, in both `~/.claude/agents/` and `~/.copilot/agents/`.
+When the same ad-hoc role has been briefed in two or three sessions, propose turning it into a defined agent in `~/.claude/agents/`.
 
 #### Keep the user informed while a sub-agent runs
 
@@ -296,7 +249,7 @@ How:
 3. Prefer `/clear` plus a self-contained prompt (the "Next step" block) when the next step is a new role or a fresh context anyway.
 4. Prefer delegating bulky exploration to a sub-agent so the raw output never enters the main context.
 
-Compacting never replaces a mandatory fresh-context role (`product-owner`, `test-writer`, reviewers): those still start in a new session.
+Compacting never replaces a fresh-context role set in the contract (`product-owner`, `test-writer`, reviewers): those still start in a new session.
 
 ---
 
@@ -306,20 +259,18 @@ When a mistake reveals reusable knowledge:
 
 * repository convention or trap → add it to the appropriate `CLAUDE.md` or `AGENTS.md` depending
 on what's used in the project;
-* behavior that must never regress → have the `test-writer` add or improve a test;
+* behavior that must never regress → add or improve a test, by the author the contract sets;
 * reusable workflow improvement → improve the relevant Skill.
 
 Do not repeatedly solve the same problem from scratch. 
 
-If you need to modify an agent, a skill or a file that is related to the coding agent say it. It will have to be modified for the Claude Code and the Github Copilot configs. These configs need to be the same and to be modified always together.
-
-The global instructions have a single source of truth: `~/.claude/AGENTS.md`. `~/.claude/CLAUDE.md` imports it and `~/.copilot/copilot-instructions.md` is a symlink to it — edit only `AGENTS.md`. Skills and agents still exist in both `~/.claude/` and `~/.copilot/` and must be kept identical.
+The global instructions have a single source of truth: `~/.claude/AGENTS.md`, imported by `~/.claude/CLAUDE.md`. Edit only `AGENTS.md`.
 
 ---
 
 ### Hand off before ending a session
 
-Before ending a non-trivial session, record:
+When the contract sets Next step to `oui`, before ending the session, record:
 
 1. **what is done**, and where to verify it (commits, tests);
 2. **what is not verified** — assumptions, paths never executed, estimated figures. This is the most important section, and the one that gets forgotten;
@@ -332,7 +283,7 @@ Record this in the project memory, not in a repository file: progress state is n
 
 ### End every role with the next step and its prompt
 
-When a role finishes (product owner, architect, implementation, test writer, reviewer, delivery, bug investigation, refactoring, bootstrap, audit…), its last output to the user is a **Next step** block:
+When the contract sets Next step to `oui` and a role finishes (product owner, architect, implementation, test writer, reviewer, delivery, bug investigation, refactoring, bootstrap, audit…), its last output to the user is a **Next step** block:
 
 ````markdown
 ## Next step
@@ -354,13 +305,15 @@ Use the `<skill>` skill.
 
 Rules for the prompt:
 
-* **Self-contained.** A new session has none of this context: give the repository, the paths of the spec, ADRs, `TESTS.md` and branch, what is done, what remains, and the open questions or review findings to process.
+* **Self-contained.** A new session has none of this context: give the repository, the contract line, the paths of the spec, ADRs, `TESTS.md` and branch, what is done, what remains, and the open questions or review findings to process.
 * **Respect the boundary of the next role.** The prompt for `product-owner` contains no code or implementation detail; the brief for `test-writer` contains no implementation idea; the prompt for a reviewer does not argue that the change is correct.
 * **One block per turn.** If the user already asked for the following steps (e.g. `pre-delivery-check` then `deliver`), do them in sequence and produce a single **Next step** block, at the very end. Same when a review is launched from the implementation session: no intermediate block.
 * **Pick one.** Recommend a single next step; list alternatives only with the condition that would select them.
 * **Say when the workflow ends.** If nothing remains (delivered, audit only), say so instead of inventing a step, and give the follow-up prompt only if a follow-up was identified.
 
 The routing for each role is in the "Next step" section of its skill or agent. This block complements the memory hand-off above: the memory records the state, the block tells the user what to launch.
+
+When the contract sets Next step to `non`, end with a 3-line summary: what changed, the proof, what is not verified. Add **Seuils franchis** when a threshold was crossed (see `task-kickoff`).
 
 ---
 
@@ -376,7 +329,7 @@ project/
 ├── USER.md
 ├── DESIGN.md
 ├── ARCHITECTURE.md
-├── TESTS.md        # registry of tests written by the test-writer role
+├── TESTS.md        # registry of every test written
 ├── specs/
 │   └── ...
 ├── docs/
@@ -603,7 +556,7 @@ Use specialized agents when an independent context improves review quality.
 
 Writes the tests, before the implementation, from the specification and the agreed seams — never from the implementation.
 
-Only role allowed to touch tests and `TESTS.md`. Never writes production code.
+When separation applies, only role allowed to touch tests and `TESTS.md`. Never writes production code.
 
 Follows the `test-authoring` skill.
 
@@ -641,7 +594,9 @@ Looks for:
 * duplication;
 * technical debt introduced by the change.
 
-These agents should review from an independent context whenever possible.
+In merged mode (reviews `fusionnée`), also checks behavior against the acceptance criteria and flags shape or superfluous tests.
+
+These agents review from a fresh context.
 
 ---
 
@@ -651,6 +606,7 @@ Use the relevant Skill instead of reproducing its full procedure manually.
 
 Available workflow Skills:
 
+* `task-kickoff` — first, on every task
 * `existing-project-bootstrap`
 * `start-feature`
 * `architecture-audit`
@@ -665,5 +621,6 @@ Interactive role Skills:
 * `product-owner`
 * `architect`
 * `deliver`
+* `grilling` (alias `grill-me`)
 
 The detailed procedure belongs in each Skill, not in this file.

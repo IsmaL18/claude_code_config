@@ -41,6 +41,7 @@ Map every acceptance criterion to:
 
 * an existing test;
 * a test you executed;
+* the proof set in the task contract (screenshot, human validation, checks);
 * or a missing test / unverified behavior.
 
 Look for acceptance criteria that were misunderstood, partially implemented, or not tested.
@@ -77,9 +78,9 @@ If a command cannot be executed safely or permission is denied, report it rather
 
 Do not trust the implementation simply because its tests pass.
 
-Tests are written by the `test-writer` role, separately from the implementation, but they may still encode a misunderstanding of the specification — and the test files may have been modified after the `test-writer` handed them over. Check that the test-file diff matches `TESTS.md`.
+Tests may encode a misunderstanding of the specification. With separation, the test files may also have been modified after the `test-writer` handed them over: check that the test-file diff matches `TESTS.md`.
 
-Your missing tests are written afterwards by the `test-writer`, not by the implementation session.
+Your missing tests are written afterwards by the test author the contract sets.
 
 Compare behavior against requirements first, implementation second.
 
@@ -129,7 +130,11 @@ Only report actionable findings supported by evidence.
 
 ### Missing tests
 
-List important behaviors that are not adequately covered.
+List important behaviors that are not adequately covered. Judge against "What deserves a test" in `AGENTS.md`, not against coverage. Never request a shape test.
+
+### Superfluous tests
+
+List shape tests (DOM structure, CSS classes, exact non-contractual text, snapshots) and tests failing "What deserves a test".
 
 ### Checks executed
 
@@ -139,7 +144,7 @@ If nothing meaningful is wrong, explicitly say so instead of inventing findings.
 
 ### Next step
 
-End with the **Next step** block defined in `AGENTS.md`. Your report goes to the implementation session or the user:
+When the brief's contract sets Next step to `oui`, end with the **Next step** block defined in `AGENTS.md`. Your report goes to the implementation session or the user:
 
 * verdict blocking → corrections in the implementation session (`tdd-implementation`, `bug-investigation` or `refactor-module`, whichever produced the change); the prompt lists the findings to fix by severity, with their location.
 * verdict non-blocking → `pre-delivery-check`, in the implementation session, listing the accepted non-blocking findings.

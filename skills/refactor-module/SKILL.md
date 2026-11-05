@@ -5,10 +5,12 @@ description: Refactor or extract a module incrementally while preserving behavio
 
 # Refactor module
 
+Follow the task contract (see `task-kickoff`). It sets the characterization tests, their author, the reviews and the proof.
+
 1. Define the target boundary and the reason for the refactor.
 2. Map current behavior, entry points, dependencies, callers, state, and tests.
-3. When coverage is insufficient, have the `test-writer` agent establish characterization or regression tests before structural changes (recorded in `TESTS.md`). Choose its model per `AGENTS.md` ("Choose the sub-agent model for the task").
-   The refactoring session must not modify tests. If a test is coupled to internals and blocks the refactor, send it back to the `test-writer` — a behavior-preserving refactor never needs to change what a good test asserts.
+3. When coverage of the risky behavior is insufficient, establish characterization tests before structural changes, under "What deserves a test" in `AGENTS.md` (recorded in `TESTS.md`). With separation, the `test-writer` agent writes them; choose its model per `AGENTS.md` ("Choose the sub-agent model for the task").
+   With separation, the refactoring session must not modify tests. If a test is coupled to internals and blocks the refactor, send it back to the `test-writer` — a behavior-preserving refactor never needs to change what a good test asserts.
 4. Identify the smallest coherent functional unit to extract or reorganize.
 5. Plan dependency direction and public interfaces before moving code.
 6. Refactor one meaningful step at a time.
@@ -28,11 +30,11 @@ Avoid repository-wide rewrites when progressive extraction is possible.
 
 ## Next step
 
-End with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt).
+When the contract sets Next step to `oui`, end with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt). Otherwise, end with the 3-line summary.
 
 Routing:
 
-* step done and green → `code-reviewer`, fresh context (agent or new-session prompt with the target boundary, the diff range and the characterization tests IDs).
+* all steps done and green → the reviews set in the contract, once, fresh context (agent or new-session prompt with the contract line, the target boundary, the diff range and the characterization tests IDs). Reviews `aucune` → `pre-delivery-check`.
 * reviewed → `pre-delivery-check` then `deliver`, continue this session.
 * another extraction remains → `refactor-module`, new session; the prompt gives the next unit to extract and what the previous step established.
 * the refactor needs a structural decision not covered by an ADR → `architect`, new session recommended.
