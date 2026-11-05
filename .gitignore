@@ -10,3 +10,9 @@
 
 # Auto-synced Anthropic skills, managed outside this repo
 /skills/synced/
+
+# Edenred design system skill, kept local
+/skills/apply-edenred-design-system/
+
+# EDP skill, kept local
+/skills/edp-data-ai-platform/
