@@ -1,0 +1,834 @@
+<!-- assets/ui-components.html — Edenred Design System · Components
+     Built on edenred-theme.css tokens. Icons via <use>, never emoji.
+     One primary action per view = eds-btn-brand. Destructive = eds-btn-danger.
+     Headings use var(--font-display); body var(--font-sans). -->
+
+<style>
+  /* ============ BUTTONS ============ */
+  .eds-btn,
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    font: 600 var(--text-sm)/1 var(--font-sans);
+    border-radius: var(--radius-md);
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    user-select: none;
+    transition: background var(--transition-fast), border-color var(--transition-fast),
+      box-shadow var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .eds-btn:disabled,
+  .eds-btn.is-loading,
+  .btn:disabled,
+  .btn.is-loading {
+    cursor: not-allowed;
+    opacity: .5;
+    pointer-events: none;
+  }
+
+  .eds-btn:focus-visible,
+  .btn:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+  }
+
+  .eds-btn:active:not(:disabled),
+  .eds-btn.is-pressed,
+  .btn:active:not(:disabled),
+  .btn.is-pressed {
+    transform: translateY(1px);
+  }
+
+.eds-icon {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    color: currentColor;
+    flex-shrink: 0;
+    padding: 1px;
+    box-sizing: border-box;
+  }
+  .eds-icon-sm { width: 16px; height: 16px; }
+  .eds-icon-lg { width: 24px; height: 24px; }
+
+  .eds-btn .eds-icon,
+  .btn .eds-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .eds-btn-dark,
+  .btn-dark {
+    background: var(--grey-900);
+    color: var(--white);
+  }
+
+  .eds-btn-dark:hover,
+  .btn-dark:hover {
+    background: var(--grey-800);
+  }
+
+  .eds-btn-dark.is-pressed,
+  .btn-dark.is-pressed {
+    background: var(--grey-700);
+  }
+
+  .eds-btn-outline,
+  .btn-outline {
+    background: transparent;
+    color: var(--text-primary);
+    border-color: var(--border-default);
+  }
+
+  .eds-btn-outline:hover,
+  .btn-outline:hover {
+    background: var(--bg-subtle);
+    border-color: var(--grey-400);
+  }
+
+  .eds-btn-outline.is-pressed,
+  .btn-outline.is-pressed {
+    background: var(--grey-200);
+    border-color: var(--grey-500);
+  }
+
+  .eds-btn-ghost,
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-primary);
+  }
+
+  .eds-btn-ghost:hover,
+  .btn-ghost:hover {
+    background: var(--bg-subtle);
+  }
+
+  .eds-btn-ghost.is-pressed,
+  .btn-ghost.is-pressed {
+    background: var(--grey-200);
+  }
+
+  .eds-btn-brand,
+  .btn-brand {
+    background: var(--brand-red);
+    color: var(--white);
+    box-shadow: var(--shadow-brand);
+  }
+
+  .eds-btn-brand:hover,
+  .btn-brand:hover {
+    background: var(--brand-red-700);
+    box-shadow: var(--shadow-brand-hover);
+  }
+
+  .eds-btn-brand.is-pressed,
+  .btn-brand.is-pressed {
+    background: var(--brand-red-900);
+  }
+
+  .eds-btn-danger,
+  .btn-danger {
+    background: var(--red-600);
+    color: var(--white);
+  }
+
+  .eds-btn-danger:hover,
+  .btn-danger:hover {
+    background: var(--red-700);
+  }
+
+  .eds-btn-danger.is-pressed,
+  .btn-danger.is-pressed {
+    background: var(--red-800);
+  }
+
+  .eds-btn-danger-outline,
+  .btn-danger-outline {
+    background: transparent;
+    color: var(--red-600);
+    border-color: var(--red-600);
+  }
+
+  .eds-btn-danger-outline:hover,
+  .btn-danger-outline:hover {
+    background: var(--red-50);
+  }
+
+  .eds-btn.is-loading .eds-btn-label,
+  .btn.is-loading .btn-label {
+    opacity: .6;
+  }
+
+  .eds-btn-spinner,
+  .btn-spinner {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    animation: eds-spin .7s linear infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes eds-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* ============ HEADER & PANEL ============ */
+  .eds-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-6);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-header);
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .eds-header-title {
+    font: 700 var(--text-xl)/1.2 var(--font-display);
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .eds-header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .eds-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+
+  /* ============ CARD ============ */
+  .eds-card,
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .eds-card-title {
+    font: 600 var(--text-lg)/1.3 var(--font-display);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-2);
+  }
+
+  .eds-card-body {
+    font: 400 var(--text-sm)/1.5 var(--font-sans);
+    color: var(--text-secondary);
+  }
+
+  /* ============ BADGE ============ */
+  .eds-badge,
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font: 600 var(--text-xs)/1 var(--font-sans);
+  }
+
+  .eds-badge-success {
+    background: var(--green-50);
+    color: var(--green-500);
+  }
+
+  .eds-badge-warning {
+    background: var(--orange-50);
+    color: var(--orange-500);
+  }
+
+  .eds-badge-error {
+    background: var(--red-50);
+    color: var(--red-500);
+  }
+
+  .eds-badge-info {
+    background: var(--blue-50);
+    color: var(--blue-500);
+  }
+
+  .eds-badge-brand {
+    background: var(--brand-red-50);
+    color: var(--brand-red);
+  }
+
+  /* ============ INPUT ============ */
+  .eds-input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    font: 400 var(--text-sm)/1.4 var(--font-sans);
+    color: var(--text-primary);
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-default);
+    border-radius: var(--radius-md);
+    transition: border-color var(--transition-fast);
+  }
+
+  .eds-input:focus {
+    outline: none;
+    border-color: var(--brand-red);
+    box-shadow: var(--focus-ring);
+  }
+
+  .eds-input::placeholder {
+    color: var(--text-muted);
+  }
+
+  /* ============ AI LOADER ============ */
+  .eds-loader {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--text-secondary);
+  }
+
+  .eds-loader-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--brand-red);
+    animation: eds-pulse 1.2s ease-in-out infinite;
+  }
+
+  .eds-loader-dot:nth-child(2) {
+    animation-delay: .2s;
+  }
+
+  .eds-loader-dot:nth-child(3) {
+    animation-delay: .4s;
+  }
+
+  @keyframes eds-pulse {
+
+    0%,
+    100% {
+      opacity: .3;
+      transform: scale(.8)
+    }
+
+    50% {
+      opacity: 1;
+      transform: scale(1)
+    }
+  }
+
+  /* ============ CHAT BUBBLES ============ */
+  .eds-chat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .eds-bubble {
+    max-width: 78%;
+    padding: var(--space-3) var(--space-4);
+    font: 400 var(--text-sm)/1.5 var(--font-sans);
+    border-radius: var(--radius-lg);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .eds-bubble-user {
+    align-self: flex-end;
+    background: var(--brand-red);
+    color: var(--white);
+    border-bottom-right-radius: var(--radius-sm);
+  }
+
+  .eds-bubble-assistant {
+    align-self: flex-start;
+    background: var(--bg-subtle);
+    color: var(--text-primary);
+    border-bottom-left-radius: var(--radius-sm);
+  }
+
+  .eds-bubble-meta {
+    font: 400 var(--text-xs)/1 var(--font-sans);
+    color: var(--text-muted);
+    margin-top: var(--space-1);
+  }
+
+  /* ============ CHIPS / SUGGESTIONS ============ */
+  .eds-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .eds-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    font: 500 var(--text-xs)/1 var(--font-sans);
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .eds-chip:hover {
+    background: var(--bg-subtle);
+    border-color: var(--grey-400);
+    color: var(--text-primary);
+  }
+
+  .eds-chip .eds-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ============ CHAT INPUT (auto-resize) ============ */
+  .eds-chat-input {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    transition: border-color var(--transition-fast);
+  }
+
+  .eds-chat-input:focus-within {
+    border-color: var(--brand-red);
+    box-shadow: var(--focus-ring);
+  }
+
+  .eds-chat-textarea {
+    flex: 1;
+    resize: none;
+    border: none;
+    outline: none;
+    background: transparent;
+    font: 400 var(--text-sm)/1.5 var(--font-sans);
+    color: var(--text-primary);
+    max-height: 160px;
+    padding: var(--space-2);
+  }
+
+  .eds-chat-textarea::placeholder {
+    color: var(--text-muted);
+  }
+
+  .eds-chat-send {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    background: var(--brand-red);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+  }
+
+  .eds-chat-send:hover {
+    background: var(--brand-red-700);
+  }
+
+  .eds-chat-send:disabled {
+    background: var(--grey-300);
+    cursor: not-allowed;
+  }
+
+  /* ============ MULTI-STEP PROGRESS ============ */
+  .eds-progress {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .eds-progress-track {
+    height: 6px;
+    background: var(--bg-subtle);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+
+  .eds-progress-fill {
+    height: 100%;
+    background: var(--brand-red);
+    border-radius: var(--radius-full);
+    transition: width var(--transition-normal);
+  }
+
+  .eds-progress-steps {
+    display: flex;
+    justify-content: space-between;
+    font: 500 var(--text-xs)/1 var(--font-sans);
+    color: var(--text-muted);
+  }
+
+  .eds-progress-step.is-active {
+    color: var(--brand-red);
+  }
+
+  .eds-progress-step.is-done {
+    color: var(--green-500);
+  }
+
+  /* ============ TYPING INDICATOR ============ */
+  .eds-typing {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-subtle);
+    border-radius: var(--radius-lg);
+    border-bottom-left-radius: var(--radius-sm);
+    align-self: flex-start;
+  }
+
+  .eds-typing-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    animation: eds-typing 1.3s ease-in-out infinite;
+  }
+
+  .eds-typing-dot:nth-child(2) {
+    animation-delay: .18s;
+  }
+
+  .eds-typing-dot:nth-child(3) {
+    animation-delay: .36s;
+  }
+
+  @keyframes eds-typing {
+
+    0%,
+    60%,
+    100% {
+      opacity: .3;
+      transform: translateY(0)
+    }
+
+    30% {
+      opacity: 1;
+      transform: translateY(-3px)
+    }
+  }
+
+  /* ============ MODAL ============ */
+  .eds-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, .55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+    z-index: 1000;
+  }
+
+  .eds-modal {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    max-width: 480px;
+    width: 100%;
+    padding: var(--space-6);
+  }
+
+  .eds-modal-title {
+    font: 600 var(--text-lg)/1.3 var(--font-display);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-2);
+  }
+
+  .eds-modal-body {
+    font: 400 var(--text-sm)/1.5 var(--font-sans);
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-5);
+  }
+
+  .eds-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-2);
+  }
+
+  /* ============ TOAST ============ */
+  .eds-toast-region {
+    position: fixed;
+    bottom: var(--space-5);
+    right: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    z-index: 1100;
+  }
+
+  .eds-toast {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    box-shadow: var(--shadow-lg);
+    font: 500 var(--text-sm)/1.4 var(--font-sans);
+    color: var(--text-primary);
+    min-width: 240px;
+  }
+
+  .eds-toast-success {
+    border-left: 3px solid var(--green-400);
+  }
+
+  .eds-toast-error {
+    border-left: 3px solid var(--red-500);
+  }
+
+  .eds-toast-warning {
+    border-left: 3px solid var(--orange-400);
+  }
+
+  .eds-toast-info {
+    border-left: 3px solid var(--blue-500);
+  }
+
+ .eds-toast .eds-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  /* ============ EMPTY STATE ============ */
+  .eds-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-12) var(--space-6);
+    color: var(--text-secondary);
+  }
+
+  .eds-empty .eds-icon-lg {
+    width: 48px;
+    height: 48px;
+    color: var(--text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .eds-empty-title {
+    font: 600 var(--text-lg)/1.3 var(--font-display);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-2);
+  }
+
+  .eds-empty-text {
+    font: 400 var(--text-sm)/1.5 var(--font-sans);
+    max-width: 360px;
+    margin: 0 0 var(--space-5);
+  }
+
+  /* ============ SKELETON ============ */
+  .eds-skeleton {
+    background: linear-gradient(90deg,
+        var(--bg-subtle) 25%, var(--grey-200) 50%, var(--bg-subtle) 75%);
+    background-size: 200% 100%;
+    border-radius: var(--radius-sm);
+    animation: eds-shimmer 1.4s ease-in-out infinite;
+  }
+
+  .eds-skeleton-text {
+    height: 12px;
+    margin-bottom: var(--space-2);
+  }
+
+  .eds-skeleton-title {
+    height: 20px;
+    width: 60%;
+    margin-bottom: var(--space-3);
+  }
+
+  .eds-skeleton-block {
+    height: 120px;
+  }
+
+  @keyframes eds-shimmer {
+    0% {
+      background-position: 200% 0
+    }
+
+    100% {
+      background-position: -200% 0
+    }
+  }
+</style>
+
+<!-- ============ MARKUP SNIPPETS ============ -->
+
+<!-- Buttons -->
+<button class="eds-btn eds-btn-brand" type="button">
+  <svg class="eds-icon" aria-hidden="true">
+    <use href="#ic-magic-star" />
+  </svg>
+  <span class="eds-btn-label">Générer</span>
+</button>
+<button class="eds-btn eds-btn-outline" type="button"><span class="eds-btn-label">Annuler</span></button>
+<button class="eds-btn eds-btn-ghost" type="button"><span class="eds-btn-label">Plus tard</span></button>
+<button class="eds-btn eds-btn-danger" type="button">
+  <svg class="eds-icon" aria-hidden="true">
+    <use href="#ic-close" />
+  </svg>
+  <span class="eds-btn-label">Supprimer</span>
+</button>
+<button class="eds-btn eds-btn-brand is-loading" type="button" aria-busy="true">
+  <span class="eds-btn-spinner" aria-hidden="true"></span>
+  <span class="eds-btn-label">Génération…</span>
+</button>
+
+<!-- Header -->
+<header class="eds-header">
+  <h1 class="eds-header-title">Mon application</h1>
+  <div class="eds-header-actions">
+    <button class="eds-btn eds-btn-ghost" id="themeToggle" aria-label="Basculer le thème" aria-pressed="false">
+      <svg class="eds-icon" id="themeIcon" aria-hidden="true">
+        <use href="#ic-moon" />
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- Card -->
+<div class="eds-card">
+  <h3 class="eds-card-title">Titre</h3>
+  <p class="eds-card-body">Contenu de la carte, sur surface neutre.</p>
+</div>
+
+<!-- Badges -->
+<span class="eds-badge eds-badge-success"><svg class="eds-icon eds-icon-sm">
+    <use href="#ic-tick-circle" />
+  </svg> Succès</span>
+<span class="eds-badge eds-badge-error">Erreur</span>
+
+<!-- Input -->
+<input class="eds-input" type="text" placeholder="Rechercher…" />
+
+<!-- AI loader -->
+<div class="eds-loader">
+  <span class="eds-loader-dot"></span><span class="eds-loader-dot"></span><span class="eds-loader-dot"></span>
+  <span>Génération en cours…</span>
+</div>
+
+<!-- Chat bubbles -->
+<div class="eds-chat">
+  <div class="eds-bubble eds-bubble-user">Quelle est la couverture de mon contrat ?</div>
+  <div class="eds-bubble eds-bubble-assistant">Votre contrat couvre les frais de santé à hauteur de 80 %.
+    <div class="eds-bubble-meta">Assistant · 12:04</div>
+  </div>
+</div>
+
+<!-- Chips -->
+<div class="eds-chips">
+  <button class="eds-chip"><svg class="eds-icon">
+      <use href="#ic-magic-star" />
+    </svg> Résumer</button>
+  <button class="eds-chip">Traduire</button>
+</div>
+
+<!-- Chat input -->
+<div class="eds-chat-input">
+  <textarea class="eds-chat-textarea" id="chatInput" rows="1" placeholder="Écrivez un message…"
+    aria-label="Message"></textarea>
+  <button class="eds-chat-send" id="chatSend" aria-label="Envoyer">
+    <svg class="eds-icon" aria-hidden="true">
+      <use href="#ic-arrow-right" />
+    </svg>
+  </button>
+</div>
+<script>
+  (function () {
+    var ta = document.getElementById("chatInput");
+    if (!ta) return;
+    function resize() { ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; }
+    ta.addEventListener("input", resize); resize();
+  })();
+</script>
+
+<!-- Progress -->
+<div class="eds-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="66">
+  <div class="eds-progress-track">
+    <div class="eds-progress-fill" style="width:66%"></div>
+  </div>
+  <div class="eds-progress-steps">
+    <span class="eds-progress-step is-done">Analyse</span>
+    <span class="eds-progress-step is-active">Synthèse</span>
+    <span class="eds-progress-step">Export</span>
+  </div>
+</div>
+
+<!-- Typing -->
+<div class="eds-typing" aria-label="L'assistant écrit">
+  <span class="eds-typing-dot"></span><span class="eds-typing-dot"></span><span class="eds-typing-dot"></span>
+</div>
+
+<!-- Modal -->
+<div class="eds-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="eds-modal">
+    <h2 class="eds-modal-title" id="mTitle">Supprimer ce document ?</h2>
+    <p class="eds-modal-body">Cette action est irréversible.</p>
+    <div class="eds-modal-actions">
+      <button class="eds-btn eds-btn-ghost">Annuler</button>
+      <button class="eds-btn eds-btn-danger">
+        <svg class="eds-icon" aria-hidden="true">
+          <use href="#ic-close" />
+        </svg> Supprimer
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="eds-toast-region">
+  <div class="eds-toast eds-toast-success" role="status">
+    <svg class="eds-icon" style="color:var(--green-500)" aria-hidden="true">
+      <use href="#ic-tick-circle" />
+    </svg>
+    Modifications enregistrées
+  </div>
+</div>
+
+<!-- Empty state -->
+<div class="eds-empty">
+  <svg class="eds-icon-lg" aria-hidden="true">
+    <use href="#ic-search" />
+  </svg>
+  <h3 class="eds-empty-title">Aucun résultat</h3>
+  <p class="eds-empty-text">Essayez d'élargir votre recherche ou de modifier les filtres.</p>
+  <button class="eds-btn eds-btn-brand">Nouvelle recherche</button>
+</div>
+
+<!-- Skeleton -->
+<div class="eds-card">
+  <div class="eds-skeleton eds-skeleton-title"></div>
+  <div class="eds-skeleton eds-skeleton-text"></div>
+  <div class="eds-skeleton eds-skeleton-text" style="width:80%"></div>
+  <div class="eds-skeleton eds-skeleton-block" style="margin-top:var(--space-4)"></div>
+</div>

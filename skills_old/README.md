@@ -1,0 +1,1 @@
+Ce dossier contient tous les skills que j'ai utilisés et que je n'utilise désormais plus. Il permet de garder une trace de ces dossiers et de, au besoin, pouvoir les remettre à jour et en activité.

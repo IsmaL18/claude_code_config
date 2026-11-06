@@ -1,0 +1,184 @@
+/* Edenred Foundation — theme CSS (v2, aligned to official design system)
+   Colors from Core Design System exports. Two distinct reds:
+   - brand red (#F72717) = Edenred identity, primary CTAs
+   - semantic error red (Reds scale, DEFAULT #ca0e00) = errors/destructive
+
+   Token layers (consume from the bottom up, never skip a layer in components):
+   1. Primitives   --brand-*, --grey-*, --blue-*, --green-*, --orange-*, --red-*
+   2. Semantic     --color-*, --bg-*, --text-*, --border-*, --focus-*
+   3. Legacy alias --brand-primary, --brand-secondary, ... (v1 names, kept so
+                   older apps pick up v2 values; do not use in new code)
+   Components use layer 2 (or a brand primitive for brand moments). Keep a
+   single :root block per app: never re-declare these tokens in a second
+   :root further down the stylesheet.
+*/
+
+:root {
+  /* === BRAND === */
+  --brand-red: #F72717;          /* Edenred brand red — primary actions */
+  --brand-pink: #FF007D;         /* Edenred brand pink */
+  --brand-red-50:  #FEEDEC;
+  --brand-red-100: #FDBBBA;
+  --brand-red-200: #FC7F7C;
+  --brand-red-700: #780D06;
+  --brand-red-900: #400402;
+  --brand-pink-50:  #FFECF0;
+  --brand-pink-100: #FFBFCE;
+  --brand-pink-200: #FF80A5;
+  --brand-pink-600: #BD005B;
+  --brand-pink-800: #7F003B;
+
+  /* Brand gradient (CTA) — corporate red→pink */
+  --gradient-brand: linear-gradient(135deg, #F72717 0%, #FF007D 100%);
+
+  /* === GREYS (neutral, default for text/surfaces) === */
+  --grey-50:  #F8FAFC;
+  --grey-100: #F1F5F9;
+  --grey-200: #E2E8F0;
+  --grey-300: #CBD5E1;
+  --grey-400: #94A3B8;
+  --grey-500: #64748B;
+  --grey-600: #475569;
+  --grey-700: #334155;
+  --grey-800: #1E293B;
+  --grey-900: #0F172A;
+  --cold-white: #F1F7FF;
+  --white: #FFFFFF;
+
+  /* === BLUES (info / emphasis) === */
+  --blue-50:  #e0eeff;   /* BACKGROUND */
+  --blue-100: #c7dfff;
+  --blue-200: #8abcff;
+  --blue-300: #529cff;
+  --blue-400: #1a7cff;
+  --blue-500: #0060df;   /* DEFAULT */
+  --blue-600: #004db3;
+  --blue-700: #003985;   /* DARK */
+  --blue-800: #002557;
+  --blue-900: #00142e;
+
+  /* === GREENS (success) === */
+  --green-50:  #e1f4eb;  /* BACKGROUND */
+  --green-100: #c3efda;
+  --green-200: #79e6b4;
+  --green-300: #2ee590;
+  --green-400: #0dba69;  /* DEFAULT */
+  --green-500: #007840;
+  --green-600: #065b33;
+  --green-700: #084026;  /* DARK */
+  --green-800: #072718;
+  --green-900: #05140d;
+
+  /* === ORANGES (warning) === */
+  --orange-50:  #FDEAE3; /* BACKGROUND */
+  --orange-100: #fbd5c6;
+  --orange-200: #f6ab8e;
+  --orange-300: #f28155;
+  --orange-400: #ed571c; /* DEFAULT */
+  --orange-500: #bf410f;
+  --orange-600: #97330c;
+  --orange-700: #712709; /* DARK */
+  --orange-800: #4c1a06;
+  --orange-900: #260d03;
+
+  /* === REDS (error / destructive — NOT brand) === */
+  --red-50:  #ffe3e0;    /* BACKGROUND */
+  --red-100: #ffc6c2;
+  --red-200: #ff8d85;
+  --red-300: #ff5447;
+  --red-400: #ff1b0a;
+  --red-500: #ca0e00;    /* DEFAULT */
+  --red-600: #a30b00;
+  --red-700: #7a0800;    /* DARK */
+  --red-800: #520600;
+  --red-900: #290300;
+
+  /* === SEMANTIC ALIASES === */
+  --color-primary:  var(--brand-red);
+  --color-success:  var(--green-400);
+  --color-warning:  var(--orange-400);
+  --color-error:    var(--red-500);
+  --color-info:     var(--blue-500);
+
+  /* === SURFACES (light) === */
+  --bg-page:        var(--grey-50);
+  --bg-card:        var(--white);
+  --bg-subtle:      var(--grey-100);
+  --bg-hover:       rgba(247, 39, 23, 0.05);
+  --text-primary:   var(--grey-900);
+  --text-secondary: var(--grey-600);
+  --text-muted:     var(--grey-400);
+  --text-inverse:   var(--white);
+  --border-default: var(--grey-200);
+
+  /* === FOCUS (keyboard + fields) === */
+  --focus-outline: 2px solid var(--brand-red);   /* :focus-visible on buttons, links, tabs */
+  --focus-offset:  2px;
+  --focus-ring:    0 0 0 3px rgba(247, 39, 23, 0.12); /* fields: border + soft ring */
+
+  /* === SPACING (4px grid) === */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+  --space-4: 16px; --space-5: 20px; --space-6: 24px;
+  --space-8: 32px; --space-10: 40px; --space-12: 48px;
+
+  /* === RADIUS === */
+  --radius-sm: 4px;  --radius-md: 8px;  --radius-lg: 12px;
+  --radius-xl: 16px; --radius-2xl: 20px; --radius-full: 9999px;
+
+  /* === TYPOGRAPHY ===
+     DA Edenred Foundation : police display arrondie pour les titres
+     (cf. images officielles). Nom exact à confirmer par l'équipe design ;
+     remplacer __EDENRED_BRAND_FONT__ par le nom réel. Le corps reste sur
+     une sans lisible. */
+  --font-display: "__EDENRED_BRAND_FONT__", "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --text-xs: 0.75rem;  --text-sm: 0.875rem; --text-base: 1rem;
+  --text-lg: 1.125rem; --text-xl: 1.25rem;  --text-2xl: 1.5rem;
+
+  /* === SHADOWS === */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+  --shadow-xl: 0 8px 32px rgba(0,0,0,0.12);
+  --shadow-brand: 0 4px 14px rgba(247,39,23,0.25);
+  --shadow-brand-hover: 0 6px 20px rgba(247,39,23,0.35);
+  --shadow-header: 0 2px 15px rgba(247,39,23,0.20);
+
+  /* === TRANSITIONS === */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+
+  /* === LEGACY ALIASES (v1 token names -> v2 values) ===
+     v1 used #ff0000 / #cc0000 / #ff5978 / mint #00a184. Map, don't redefine. */
+  --brand-primary:      var(--brand-red);
+  --brand-primary-dark: var(--brand-red-700);
+  --brand-secondary:    var(--brand-pink);
+  --brand-accent:       var(--blue-500);
+  --gradient-button:    var(--gradient-brand);
+}
+
+[data-theme="dark"] {
+  --bg-page:        var(--grey-900);
+  --bg-card:        var(--grey-800);
+  --bg-subtle:      var(--grey-700);
+  --bg-hover:       rgba(247, 39, 23, 0.12);
+  --text-primary:   var(--grey-100);
+  --text-secondary: var(--grey-300);
+  --text-muted:     var(--grey-500);
+  --border-default: var(--grey-700);
+}
+
+/* Same values as [data-theme="dark"]; applies when no explicit theme is set. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-page:        var(--grey-900);
+    --bg-card:        var(--grey-800);
+    --bg-subtle:      var(--grey-700);
+    --bg-hover:       rgba(247, 39, 23, 0.12);
+    --text-primary:   var(--grey-100);
+    --text-secondary: var(--grey-300);
+    --text-muted:     var(--grey-500);
+    --border-default: var(--grey-700);
+  }
+}
