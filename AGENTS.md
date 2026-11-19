@@ -118,9 +118,9 @@ Automated visual regression (`toHaveScreenshot`, native snapshots) only when the
 
 ### Run targeted tests, then the full suite once
 
-* Run only the tests of the touched scope during the work.
-* Run the full suite once, in `pre-delivery-check`. Exception: when the contract says `aucun test` and the suite is slow, run the targeted tests instead.
-* Run a full baseline before the work only when the suite is fast. Otherwise, run a targeted baseline.
+* Run only the touched test files during the work. Never the full suite, not even as a baseline.
+* Run the full suite once, before the push, in `pre-delivery-check`. Exception: when the contract says `aucun test` and the suite is slow, run the targeted tests instead.
+* Run the full suite in parallel when the runner allows it (`pytest -n auto` with `pytest-xdist`, vitest by default).
 
 ---
 
@@ -556,7 +556,7 @@ Use specialized agents when an independent context improves review quality.
 
 ### `test-writer`
 
-Writes the tests, before the implementation, from the specification and the agreed seams — never from the implementation.
+Writes the tests, before the implementation, from the specification, at seams it picks itself — never from the implementation.
 
 When separation applies, only role allowed to touch tests and `TESTS.md`. Never writes production code.
 

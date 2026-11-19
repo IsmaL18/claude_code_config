@@ -57,16 +57,15 @@ Up to four questions:
 
 Up to three questions:
 
-1. **Stratégie de tests** — `plan validé` / `sélection stricte` / `aucun test`.
-   * `plan validé`: before any test is written, the test author returns a plan (one line per test: name, risk covered, why it is worth its cost). Submit it to the developer. Write only the approved tests.
-   * `sélection stricte`: apply "What deserves a test" in `AGENTS.md`. No plan gate.
+1. **Stratégie de tests** — `écriture directe` / `aucun test`.
+   * `écriture directe`: the test author writes the tests directly under "What deserves a test" in `AGENTS.md`, at most one per acceptance criterion. No plan to validate, no seams to confirm: the review judges the tests afterwards.
    * `aucun test`: write no test. Existing tests must still pass.
 2. **Séparation code/tests** — `test-writer en contexte neuf` / `même session`. Skip if `aucun test`.
    * `test-writer en contexte neuf`: the rule "the one who writes the code never writes the tests" applies in full.
    * `même session`: this session writes the tests, test-first when practical, and records them in `TESTS.md`.
 3. **Preuve de fin** (multiSelect) — `capture d'écran par l'agent` / `lint + typecheck + build` / `tests ciblés` / `validation humaine`.
 
-Test execution is fixed, not asked: targeted tests during the work, the full suite once in `pre-delivery-check`.
+Test execution is fixed, not asked: targeted tests during the work (the touched test files only), the full suite once before the push, in `pre-delivery-check`.
 
 ## Presets
 
@@ -74,11 +73,11 @@ Test execution is fixed, not asked: targeted tests during the work, the full sui
 |---|---|---|---|---|---|---|---|
 | Touch-up | non | non | aucune | non | aucun | — | capture + lint/typecheck |
 | Prototype | non | non | aucune | non | aucun | — | validation humaine (demo) |
-| Bug | non | non | fusionnée* | non | sélection stricte (1 regression test) | test-writer neuf* | tests ciblés |
-| Feature | if ambiguous | if decision | fusionnée* | oui | sélection stricte | test-writer neuf* | tests ciblés + lint |
-| Structural | oui | oui | séparées | oui | plan validé | test-writer neuf | tests ciblés + lint/typecheck/build |
-| UI redesign | non (mockup or reference capture) | non | fusionnée* | oui | sélection stricte, behavior only | même session | capture + validation humaine |
-| Refactor | non | if decision | fusionnée* | oui | sélection stricte (characterization) | test-writer neuf* | tests ciblés + lint/typecheck/build |
+| Bug | non | non | fusionnée* | non | écriture directe (1 regression test) | test-writer neuf* | tests ciblés |
+| Feature | if ambiguous | if decision | fusionnée* | oui | écriture directe | test-writer neuf* | tests ciblés + lint |
+| Structural | oui | oui | séparées | oui | écriture directe | test-writer neuf | tests ciblés + lint/typecheck/build |
+| UI redesign | non (mockup or reference capture) | non | fusionnée* | oui | écriture directe, behavior only | même session | capture + validation humaine |
+| Refactor | non | if decision | fusionnée* | oui | écriture directe (characterization) | test-writer neuf* | tests ciblés + lint/typecheck/build |
 
 \* Default only when the task touches a risk zone. Otherwise recommend `aucune` and `même session`.
 
@@ -98,7 +97,7 @@ When the task touches one, say which in the round 1 reason.
 Once validated, restate the contract in one line and keep it for the whole task:
 
 ```text
-Contrat — Niveau : Feature · Spec : non · ADR : non · Revues : fusionnée · Next step : oui · Tests : sélection stricte · Séparation : test-writer neuf · Preuve : tests ciblés + lint
+Contrat — Niveau : Feature · Spec : non · ADR : non · Revues : fusionnée · Next step : oui · Tests : écriture directe · Séparation : test-writer neuf · Preuve : tests ciblés + lint
 ```
 
 * Pass the contract line in every sub-agent brief.

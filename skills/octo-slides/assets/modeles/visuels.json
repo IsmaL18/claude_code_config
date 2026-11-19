@@ -1,0 +1,752 @@
+{
+ "a9c110890b15": {
+  "categorie": "3d",
+  "description": "Cube jaune « attention » (vignette)",
+  "mots_cles": "alerte, attention, risque",
+  "id": "3.22"
+ },
+ "cc019966b711": {
+  "categorie": "3d",
+  "description": "Deux pots de peinture marine et turquoise qui coulent",
+  "mots_cles": "couleurs, charte, design, identité",
+  "id": "4.0"
+ },
+ "a8a39c5d13db": {
+  "categorie": "autre",
+  "description": "Matrice des contrastes de la charte (capture)",
+  "mots_cles": "charte, accessibilité, contraste",
+  "id": "6.0"
+ },
+ "14bfd3a872fd": {
+  "categorie": "autre",
+  "description": "Capture du sélecteur de couleurs Google Slides « 2024 - OCTO »",
+  "mots_cles": "charte, couleurs, Google Slides",
+  "id": "7.5"
+ },
+ "4aafa2c6f180": {
+  "categorie": "autre",
+  "description": "Capture du sélecteur de police « Outfit »",
+  "mots_cles": "charte, police, typographie",
+  "id": "7.6"
+ },
+ "13bfb89e24ba": {
+  "categorie": "3d",
+  "description": "Petit fantôme (vignette)",
+  "mots_cles": "fantôme, invisible, caché, Halloween",
+  "id": "9.26"
+ },
+ "0bf7344f9539": {
+  "categorie": "logo",
+  "description": "Logo OCTO Technology, Part of Accenture, marine",
+  "mots_cles": "OCTO, logo, Accenture, marque",
+  "id": "11.1.1"
+ },
+ "8b69b32600dd": {
+  "categorie": "logo",
+  "description": "Logo La Conf Data IA by OCTO (la grosse conf)",
+  "mots_cles": "événement, conférence, data, IA",
+  "id": "11.6"
+ },
+ "ebc87b5032e8": {
+  "categorie": "logo",
+  "description": "Logo USI, Unexpected Sources of Inspiration",
+  "mots_cles": "événement, conférence, USI",
+  "id": "11.7"
+ },
+ "07c15fa9e92e": {
+  "categorie": "logo",
+  "description": "Logo Accenture",
+  "mots_cles": "Accenture, partenaire, groupe",
+  "id": "11.11"
+ },
+ "2e5d9d580aff": {
+  "categorie": "logo",
+  "description": "Chevron violet Accenture",
+  "mots_cles": "Accenture, marque",
+  "id": "11.12"
+ },
+ "2b457ece89cf": {
+  "categorie": "logo",
+  "description": "Logo Duck Conf",
+  "mots_cles": "événement, conférence, Duck Conf",
+  "id": "11.14"
+ },
+ "4b2562534025": {
+  "categorie": "logo",
+  "description": "Logo OCTO Academy, Learn to Change",
+  "mots_cles": "formation, academy, apprentissage",
+  "id": "12.1.1"
+ },
+ "7cbf3d2e67a7": {
+  "categorie": "logo",
+  "description": "Label Numérique Responsable (RGESN, RGPD, RGAA)",
+  "mots_cles": "numérique responsable, accessibilité, RGPD",
+  "id": "12.10"
+ },
+ "aeaa6d933882": {
+  "categorie": "logo",
+  "description": "Label B Corporation (variante)",
+  "mots_cles": "B Corp, RSE, certification",
+  "id": "12.12"
+ },
+ "b20e4f1328c6": {
+  "categorie": "logo",
+  "description": "Label Great Place to Work",
+  "mots_cles": "marque employeur, label, RH",
+  "id": "12.13"
+ },
+ "cde0d95ffc99": {
+  "categorie": "logo",
+  "description": "Logo L'Autre Cercle",
+  "mots_cles": "diversité, inclusion, LGBT, engagement",
+  "id": "12.14"
+ },
+ "2badc4549cbe": {
+  "categorie": "logo",
+  "description": "Logo OCTO Events",
+  "mots_cles": "événement, communauté",
+  "id": "12.15"
+ },
+ "3e1c6be252f9": {
+  "categorie": "logo",
+  "description": "Logo OCTO Skool, Talent Acceleration Programs",
+  "mots_cles": "formation, talents, école",
+  "id": "12.16"
+ },
+ "90e0751562e7": {
+  "categorie": "3d",
+  "description": "Fenêtres d'interface web avec images et texte",
+  "mots_cles": "interface, web, application, UX",
+  "id": "13.2"
+ },
+ "75c3d469a5c4": {
+  "categorie": "3d",
+  "description": "Globe dans des flèches de recyclage, code binaire",
+  "mots_cles": "numérique responsable, recyclage, durable, data",
+  "id": "14.0"
+ },
+ "dfab2a7c4e18": {
+  "categorie": "3d",
+  "description": "Ampoule allumée jaune",
+  "mots_cles": "idée, innovation, inspiration",
+  "id": "15.0"
+ },
+ "a7ec771a99c6": {
+  "categorie": "3d",
+  "description": "Coche verte et croix rouge (variante)",
+  "mots_cles": "vrai faux, choix, quiz",
+  "id": "17.2"
+ },
+ "862777a4b06d": {
+  "categorie": "3d",
+  "description": "Cible et personnes autour",
+  "mots_cles": "cible, utilisateurs, objectif, persona",
+  "id": "17.3"
+ },
+ "e47fcb1f99a6": {
+  "categorie": "3d",
+  "description": "Palette de peintre (variante)",
+  "mots_cles": "créativité, design",
+  "id": "17.4"
+ },
+ "ac8187d01de4": {
+  "categorie": "3d",
+  "description": "Mallette violette à outils",
+  "mots_cles": "boîte à outils, outils, kit",
+  "id": "17.6"
+ },
+ "3f034bd71332": {
+  "categorie": "3d",
+  "description": "Cible et flèche",
+  "mots_cles": "objectif, cible, précision, réussite",
+  "id": "18.2"
+ },
+ "fb7408e02c44": {
+  "categorie": "3d",
+  "description": "Palette de peintre et pinceau",
+  "mots_cles": "créativité, design, art",
+  "id": "18.8"
+ },
+ "5363c53ec178": {
+  "categorie": "3d",
+  "description": "Coche verte et croix rouge",
+  "mots_cles": "vrai faux, choix, validation, quiz",
+  "id": "18.9"
+ },
+ "067a0545bc76": {
+  "categorie": "3d",
+  "description": "Téléphone entouré d'outils d'interface (texte, image, réglages)",
+  "mots_cles": "application, design, outils, interface",
+  "id": "19.0"
+ },
+ "515200b727c8": {
+  "categorie": "3d",
+  "description": "Bulle point d'interrogation (variante)",
+  "mots_cles": "question, doute, conversation",
+  "id": "19.1"
+ },
+ "2513ca6c0825": {
+  "categorie": "3d",
+  "description": "Bulle blanche et bulle point d'interrogation violette",
+  "mots_cles": "question, FAQ, doute, conversation",
+  "id": "20.3"
+ },
+ "1ccb241663c8": {
+  "categorie": "3d",
+  "description": "Fantôme blanc",
+  "mots_cles": "fantôme, invisible, caché, mystère",
+  "id": "21.4"
+ },
+ "a44ce203122f": {
+  "categorie": "3d",
+  "description": "Brin d'ADN bleu",
+  "mots_cles": "ADN, culture, identité, science",
+  "id": "22.0"
+ },
+ "cdbc79b73e12": {
+  "categorie": "3d",
+  "description": "Grande coche verte",
+  "mots_cles": "validation, succès, OK",
+  "id": "23.3"
+ },
+ "38ea00615094": {
+  "categorie": "3d",
+  "description": "Globe à facettes",
+  "mots_cles": "monde, international, réseau",
+  "id": "25.3"
+ },
+ "7c5b267b9ce2": {
+  "categorie": "3d",
+  "description": "Livre ouvert",
+  "mots_cles": "lecture, documentation, connaissance, livre",
+  "id": "26.0"
+ },
+ "013b4697a51e": {
+  "categorie": "3d",
+  "description": "Planète Terre",
+  "mots_cles": "monde, international, environnement",
+  "id": "27.3"
+ },
+ "f85560ca52db": {
+  "categorie": "3d",
+  "description": "Téléphone avec une coche validée",
+  "mots_cles": "mobile, validation, application, succès",
+  "id": "28.4"
+ },
+ "037745afb80c": {
+  "categorie": "3d",
+  "description": "Robot jaune entouré de bulles de discussion",
+  "mots_cles": "chatbot, IA, assistant, conversation, agent",
+  "id": "29.2"
+ },
+ "4176757abd37": {
+  "categorie": "3d",
+  "description": "Boucle DevOps en forme d'infini",
+  "mots_cles": "DevOps, boucle, continu, cycle",
+  "id": "30.3"
+ },
+ "af52e15eb943": {
+  "categorie": "3d",
+  "description": "Coche en gazon dans un cadre",
+  "mots_cles": "validation, durable, écologie",
+  "id": "31.3"
+ },
+ "a33c9659509b": {
+  "categorie": "3d",
+  "description": "Pile de magazines « Culture Flow » (variante)",
+  "mots_cles": "publication, livre blanc, culture",
+  "id": "33.0"
+ },
+ "55e90229588c": {
+  "categorie": "3d",
+  "description": "Pile de magazines « Culture Flow »",
+  "mots_cles": "publication, livre blanc, culture, lecture",
+  "id": "34.4"
+ },
+ "c43349562f4f": {
+  "categorie": "3d",
+  "description": "Rapport avec graphiques en barres et camembert",
+  "mots_cles": "rapport, analyse, données, dashboard",
+  "id": "35.3"
+ },
+ "61532df682cb": {
+  "categorie": "picto",
+  "description": "Loupe sur une pile de documents",
+  "mots_cles": "analyse documentaire, recherche, audit",
+  "id": "37.4"
+ },
+ "9cb5455342bc": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'une femme souriante, bras croisés",
+  "mots_cles": "portrait, verbatim, témoignage",
+  "id": "38.0"
+ },
+ "2a9e29b4d755": {
+  "categorie": "photo",
+  "description": "Conférencière sur la scène de la Duck Conf",
+  "mots_cles": "conférence, talk, scène, événement",
+  "id": "39.0"
+ },
+ "47497960b8d1": {
+  "categorie": "3d",
+  "description": "Outils de conception : équerre, maquette, palette de couleurs",
+  "mots_cles": "conception, design, architecture, maquette",
+  "id": "40.2"
+ },
+ "15058a86b831": {
+  "categorie": "3d",
+  "description": "Cube jaune « attention »",
+  "mots_cles": "alerte, attention, risque, vigilance",
+  "id": "44.9"
+ },
+ "dd4877fedf0b": {
+  "categorie": "picto",
+  "description": "Cadran avec graphique de croissance",
+  "mots_cles": "KPI, performance, pilotage, dashboard",
+  "id": "46.7"
+ },
+ "1240face551f": {
+  "categorie": "picto",
+  "description": "Globe qui fond, bichrome",
+  "mots_cles": "réchauffement climatique, environnement, urgence",
+  "id": "46.8"
+ },
+ "ca01373ebf46": {
+  "categorie": "3d",
+  "description": "Icône T de texte avec curseur",
+  "mots_cles": "texte, rédaction, édition",
+  "id": "47.2"
+ },
+ "5d2f663e8ebf": {
+  "categorie": "3d",
+  "description": "Ballon en forme de cactus",
+  "mots_cles": "risque, piquant, paradoxe, fragile",
+  "id": "48.0"
+ },
+ "4be1d5cb0279": {
+  "categorie": "3d",
+  "description": "Cœur aux couleurs qui coulent",
+  "mots_cles": "diversité, inclusion, passion, engagement",
+  "id": "49.0"
+ },
+ "10105c3a88e3": {
+  "categorie": "3d",
+  "description": "Presse-papier avec checklist et crayon",
+  "mots_cles": "checklist, synthèse, executive summary, plan",
+  "id": "50.2"
+ },
+ "16ffda8ed95f": {
+  "categorie": "filaire",
+  "description": "Deux personnages-yeux face à face et un laptop, au trait",
+  "mots_cles": "échange, binôme, collaboration, entretien",
+  "id": "51.4"
+ },
+ "cdbfb92ff713": {
+  "categorie": "filaire",
+  "description": "Titre « Engagement³ » entouré de petits pictos au trait (boussole, fusée, longue-vue)",
+  "mots_cles": "engagement, valeurs, mission",
+  "id": "52.7.0"
+ },
+ "8ae4b75d4289": {
+  "categorie": "filaire",
+  "description": "Coche dans un cercle, au trait marine",
+  "mots_cles": "validation, coche, conforme, OK",
+  "id": "54.5.2"
+ },
+ "8f61ff55bbe8": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'un homme assis",
+  "mots_cles": "portrait, équipe",
+  "id": "56.2.0"
+ },
+ "bd5d7967bf74": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'un homme qui fait signe stop",
+  "mots_cles": "portrait, équipe",
+  "id": "56.2.2"
+ },
+ "50463942442a": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'un homme en costume (petit)",
+  "mots_cles": "portrait, équipe",
+  "id": "57.9"
+ },
+ "1d46a0e9e357": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'un homme souriant",
+  "mots_cles": "portrait, équipe",
+  "id": "57.10"
+ },
+ "f2a50f61bb7e": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'une femme souriante",
+  "mots_cles": "portrait, équipe",
+  "id": "57.11"
+ },
+ "d1840033bf64": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'un homme à lunettes, bras croisés",
+  "mots_cles": "portrait, équipe",
+  "id": "57.12"
+ },
+ "0f16e6755c7c": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'un homme, pouces levés",
+  "mots_cles": "portrait, équipe",
+  "id": "57.13"
+ },
+ "9426e3879eab": {
+  "categorie": "3d",
+  "description": "Écran et loupe",
+  "mots_cles": "analyse, contexte, recherche, audit",
+  "id": "64.2"
+ },
+ "57129b52e5c4": {
+  "categorie": "3d",
+  "description": "Cible, échelle et fléchettes",
+  "mots_cles": "objectif, démarche, ambition, progression",
+  "id": "71.2"
+ },
+ "48b485cd6254": {
+  "categorie": "picto",
+  "description": "Document PowerPoint « P », bichrome",
+  "mots_cles": "document, présentation, livrable",
+  "id": "79.0"
+ },
+ "c01a71a36d0d": {
+  "categorie": "3d",
+  "description": "Barres de croissance avec flèches montantes",
+  "mots_cles": "croissance, résultats, progression, performance",
+  "id": "83.2"
+ },
+ "138d99168bab": {
+  "categorie": "picto",
+  "description": "Médaille à rubans",
+  "mots_cles": "récompense, qualité, label, réussite",
+  "id": "98.29.0"
+ },
+ "56f781bdd408": {
+  "categorie": "picto",
+  "description": "Flèches de recyclage",
+  "mots_cles": "recyclage, cycle, réemploi",
+  "id": "100.1.3"
+ },
+ "74d7b203b677": {
+  "categorie": "picto",
+  "description": "Main qui tient la Terre",
+  "mots_cles": "environnement, responsabilité, RSE",
+  "id": "100.9.3"
+ },
+ "962f7abe2b69": {
+  "categorie": "3d",
+  "description": "Longue-vue sur trépied",
+  "mots_cles": "vision, planning, anticipation, prospective",
+  "id": "101.2"
+ },
+ "8175d91f8a51": {
+  "categorie": "picto",
+  "description": "Carton d'expédition, flèches vers le haut",
+  "mots_cles": "livraison, livrable, colis, mise en production",
+  "id": "109.37"
+ },
+ "a0fa27f40a38": {
+  "categorie": "filaire",
+  "description": "Développeur au laptop, engrenages, code et réseau, au trait marine et turquoise, en pilule",
+  "mots_cles": "développeur, code, tech, ingénierie, data",
+  "id": "117.36"
+ },
+ "8fa885697c5b": {
+  "categorie": "3d",
+  "description": "Chevalet de peintre",
+  "mots_cles": "atelier, présentation, création",
+  "id": "122.2"
+ },
+ "47f497a15302": {
+  "categorie": "picto",
+  "description": "Soleil autour d'une cible",
+  "mots_cles": "énergie, solaire, focus",
+  "id": "137.18"
+ },
+ "9f58ab8c2813": {
+  "categorie": "picto",
+  "description": "Smiley dans une bulle avec flèches de boucle",
+  "mots_cles": "feedback, satisfaction, boucle",
+  "id": "137.26"
+ },
+ "75335b16e808": {
+  "categorie": "3d",
+  "description": "Checklist papier",
+  "mots_cles": "liste, tableau, tâches, vérification",
+  "id": "143.2"
+ },
+ "3efab8151539": {
+  "categorie": "picto",
+  "description": "Double flèche d'échange",
+  "mots_cles": "échange, flux, synchronisation, interface",
+  "id": "145.8"
+ },
+ "56004a79a00a": {
+  "categorie": "picto",
+  "description": "Cerveau et engrenage",
+  "mots_cles": "IA, intelligence, réflexion, machine learning",
+  "id": "145.15"
+ },
+ "304d92df26f4": {
+  "categorie": "3d",
+  "description": "Micro de studio",
+  "mots_cles": "prise de parole, réponse, voix, podcast",
+  "id": "158.0"
+ },
+ "abb56c2b0e73": {
+  "categorie": "picto",
+  "description": "Trois cercles reliés",
+  "mots_cles": "réseau, relations, organisation",
+  "id": "167.5"
+ },
+ "227d0f663474": {
+  "categorie": "picto",
+  "description": "Boîte à outils avec clé et tournevis",
+  "mots_cles": "outils, boîte à outils, maintenance",
+  "id": "172.26"
+ },
+ "09104a90055d": {
+  "categorie": "picto",
+  "description": "Trois engrenages",
+  "mots_cles": "processus, mécanique, automatisation",
+  "id": "172.30"
+ },
+ "8cfd51f1015e": {
+  "categorie": "3d",
+  "description": "Terre dans des flèches de recyclage, pousse",
+  "mots_cles": "RSE, durable, environnement, numérique responsable",
+  "id": "175.0"
+ },
+ "21d74319d9c7": {
+  "categorie": "logo",
+  "description": "Logo Convention des entreprises pour le climat",
+  "mots_cles": "climat, RSE, engagement",
+  "id": "175.11"
+ },
+ "5d01b9b1a67f": {
+  "categorie": "logo",
+  "description": "Logo La Fresque du Climat",
+  "mots_cles": "climat, atelier, RSE",
+  "id": "175.12"
+ },
+ "a2e37a54c121": {
+  "categorie": "logo",
+  "description": "Logo Planet Tech'Care signataire",
+  "mots_cles": "numérique responsable, RSE",
+  "id": "175.13"
+ },
+ "9decda64c736": {
+  "categorie": "logo",
+  "description": "Label B Corporation",
+  "mots_cles": "B Corp, RSE, certification",
+  "id": "175.16"
+ },
+ "a24d74f72aa0": {
+  "categorie": "logo",
+  "description": "Médaille EcoVadis Gold 2020",
+  "mots_cles": "RSE, notation, EcoVadis",
+  "id": "175.17"
+ },
+ "992566e0287e": {
+  "categorie": "logo",
+  "description": "Logo GreenIT.fr",
+  "mots_cles": "green IT, numérique responsable",
+  "id": "175.18"
+ },
+ "e5660d60fdef": {
+  "categorie": "autre",
+  "description": "Signature manuscrite marine",
+  "mots_cles": "signature, engagement, contrat",
+  "id": "176.5"
+ },
+ "9c324fe626f8": {
+  "categorie": "logo",
+  "description": "Logo GTT, Technology for a sustainable world (client d'exemple)",
+  "mots_cles": "client, référence",
+  "id": "180.11.1"
+ },
+ "7cb39b617cf0": {
+  "categorie": "3d",
+  "description": "Écran de mise en page, typographie et loupe",
+  "mots_cles": "mise en page, design, schéma, édition",
+  "id": "181.2"
+ },
+ "93b61914b29e": {
+  "categorie": "filaire",
+  "description": "Quatre mains entrecroisées, au trait marine",
+  "mots_cles": "collectif, collaboration, équipe, solidarité",
+  "id": "183.10"
+ },
+ "f9041dab944a": {
+  "categorie": "filaire",
+  "description": "Trois personnages à toque de diplômé, de taille croissante, au trait",
+  "mots_cles": "formation, montée en compétence, progression, apprentissage",
+  "id": "184.24.3"
+ },
+ "7492b6987470": {
+  "categorie": "picto",
+  "description": "Flèche qui entre dans un cercle",
+  "mots_cles": "entrée, onboarding, intégration",
+  "id": "186.34"
+ },
+ "1d00c1a41182": {
+  "categorie": "filaire",
+  "description": "Personnage octo au trait, cheveux et col turquoise",
+  "mots_cles": "persona, utilisateur, personnage",
+  "id": "192.16"
+ },
+ "b843f350e9a2": {
+  "categorie": "filaire",
+  "description": "Maison du lean au trait : piliers Just in Time et Jidoka, personnages",
+  "mots_cles": "lean, maison, piliers, amélioration continue",
+  "id": "195.1"
+ },
+ "c112ee43ac25": {
+  "categorie": "filaire",
+  "description": "Fronton de la maison du lean : satisfaction des clients et suppression des gaspillages",
+  "mots_cles": "lean, toit, objectif",
+  "id": "195.2"
+ },
+ "1acd7f53df27": {
+  "categorie": "filaire",
+  "description": "Socle de la maison du lean : standard et kaizen, stabilité, personnage",
+  "mots_cles": "lean, socle, kaizen",
+  "id": "195.3.2"
+ },
+ "ab46668f1420": {
+  "categorie": "3d",
+  "description": "Molécule réseau bleue",
+  "mots_cles": "réseau, connexions, graphe, science",
+  "id": "204.0"
+ },
+ "5481346ed447": {
+  "categorie": "picto",
+  "description": "Cercle de croissance avec flèches",
+  "mots_cles": "croissance, amélioration continue",
+  "id": "219.27"
+ },
+ "e90c55464944": {
+  "categorie": "picto",
+  "description": "Truelle, briques et code binaire",
+  "mots_cles": "construction, développement, build",
+  "id": "219.32"
+ },
+ "32836e97fae4": {
+  "categorie": "picto",
+  "description": "Cube sur trois axes",
+  "mots_cles": "3D, dimensions, modélisation",
+  "id": "219.33"
+ },
+ "23a0b13995ae": {
+  "categorie": "3d",
+  "description": "Pile de livres et flèche montante",
+  "mots_cles": "connaissance, apprentissage, formation",
+  "id": "242.0"
+ },
+ "feafb5b5f58a": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'une femme souriante, bras croisés (variante)",
+  "mots_cles": "portrait, équipe",
+  "id": "245.5"
+ },
+ "aff6c982a316": {
+  "categorie": "3d",
+  "description": "Rangée de smileys, du rouge au vert",
+  "mots_cles": "satisfaction, feedback, humeur, NPS",
+  "id": "253.2"
+ },
+ "e58246263a4e": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'un homme à lunettes, en gros plan",
+  "mots_cles": "portrait, équipe",
+  "id": "254.4"
+ },
+ "bf9bb9bb7d9a": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'un homme en pull",
+  "mots_cles": "portrait, équipe",
+  "id": "254.6"
+ },
+ "ab609a871cd9": {
+  "categorie": "logo",
+  "description": "Chevron violet Accenture (grand)",
+  "mots_cles": "Accenture, marque",
+  "id": "254.25"
+ },
+ "0c420eafda61": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'un homme tatoué, mains derrière la tête",
+  "mots_cles": "portrait, équipe",
+  "id": "255.0"
+ },
+ "739d0ff19056": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'une femme, bras croisés",
+  "mots_cles": "portrait, équipe",
+  "id": "255.1"
+ },
+ "87d8761c9257": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'un homme lisant « Tribal Leadership »",
+  "mots_cles": "portrait, lecture, leadership",
+  "id": "255.11"
+ },
+ "e8265ccb76cc": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'une femme souriante",
+  "mots_cles": "portrait, équipe",
+  "id": "255.12"
+ },
+ "8bb5c9953e86": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'un homme en chemise, bras croisés",
+  "mots_cles": "portrait, équipe",
+  "id": "255.13"
+ },
+ "5ed48c9ebec4": {
+  "categorie": "photo",
+  "description": "Portrait N&B d'une femme en col roulé",
+  "mots_cles": "portrait, équipe",
+  "id": "257.1"
+ },
+ "02be1509a8c9": {
+  "categorie": "3d",
+  "description": "Camembert, rapport et calculatrice",
+  "mots_cles": "finance, proposition financière, budget, analyse",
+  "id": "282.2"
+ },
+ "5b08892bb31c": {
+  "categorie": "3d",
+  "description": "Boulier",
+  "mots_cles": "calcul, chiffrage, estimation",
+  "id": "283.12"
+ },
+ "68d6ec112914": {
+  "categorie": "3d",
+  "description": "Téléphone profil utilisateur et cible",
+  "mots_cles": "profil, persona, CV, ciblage",
+  "id": "290.2"
+ },
+ "f2a24acd849c": {
+  "categorie": "3d",
+  "description": "Appareil photo dans les nuages",
+  "mots_cles": "photo, image, capture",
+  "id": "291.1"
+ },
+ "60ac851c3d3e": {
+  "categorie": "3d",
+  "description": "Pouce levé néon bleu",
+  "mots_cles": "approbation, j'aime, succès, référence",
+  "id": "293.2"
+ },
+ "d3410c9034e8": {
+  "categorie": "3d",
+  "description": "Bulle avec trois étoiles",
+  "mots_cles": "avis, évaluation, satisfaction, témoignage",
+  "id": "296.2"
+ }
+}

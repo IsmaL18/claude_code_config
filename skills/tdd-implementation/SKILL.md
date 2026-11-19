@@ -9,7 +9,7 @@ TDD is the red → green loop. The task contract (see `task-kickoff`) sets who w
 * `test-writer en contexte neuf`: the **test-writer** (agent `test-writer`, skill `test-authoring`) writes the failing tests and records them in `TESTS.md`; **this session** writes the production code that makes them pass. "The rule" below applies.
 * `même session`: this session writes the tests first, under the `test-authoring` skill, then the code. "The rule" does not apply. Skip steps 3 and 5 of the loop.
 
-Every test follows the contract's strategy (`plan validé` or `sélection stricte`) and "What deserves a test" in `AGENTS.md`.
+Tests are written directly, with no plan to validate, under "What deserves a test" in `AGENTS.md`.
 
 ## The rule (separation chosen)
 
@@ -28,15 +28,13 @@ When a test looks wrong, stop and send it back to the test-writer with the evide
 
 ## Before the loop
 
-0. **Baseline.** Before any test is added, run the tests of the touched scope and note the failures already present (test IDs and a one-line reason). Run the full suite as baseline only when it is fast. At the end of each slice, compare with this baseline instead of stashing your changes to find out whether a failure is yours.
+0. **Baseline.** Before any test is added, run the test files of the touched scope (never the full suite) and note the failures already present. At the end of each slice, compare with this baseline instead of stashing your changes to find out whether a failure is yours.
 1. Read the specification or acceptance criteria.
-2. Write down the seams under test (the public interfaces where behavior is observed) and confirm them with the user. No test is requested at an unconfirmed seam. If the user's prompt already names the seams (files, interfaces, variables, spec reference), restate them in your answer and proceed: that is the confirmation, do not wait for another.
-3. Cut the work into vertical slices: one seam, one behavior per slice. Horizontal slicing (all tests first, then all code) is an anti-pattern.
-4. With `plan validé`: get the test plan for all slices (from the test-writer, or written by this session), submit it to the developer, and keep only the approved tests.
+2. Cut the work into vertical slices: one behavior per slice. Horizontal slicing (all tests first, then all code) is an anti-pattern. No seam or plan confirmation with the user: the test author picks the seams, the review judges the tests.
 
 ## The loop, per slice
 
-1. **Red.** With separation: launch the `test-writer` agent with a brief containing: the contract line, the test strategy and the approved plan if any, the spec path or acceptance criteria, the confirmed seams, the slice to cover, and the test conventions of the repository (location, runner, command). Do not include your implementation ideas. For the next slices, continue the same test-writer agent rather than starting a new one, so it keeps the test-side context. Choose its model for the slice (see "Choose the sub-agent model for the task" in `AGENTS.md`): its default `sonnet` for ordinary slices, `opus` for a tricky seam or a disputed test.
+1. **Red.** With separation: launch the `test-writer` agent with a brief containing: the contract line, the spec path or acceptance criteria, the slice to cover, and the test conventions of the repository (location, runner, command). Do not include your implementation ideas. For the next slices, continue the same test-writer agent rather than starting a new one, so it keeps the test-side context. Choose its model for the slice (see "Choose the sub-agent model for the task" in `AGENTS.md`): its default `sonnet` for ordinary slices, `opus` for a tricky seam or a disputed test.
 2. **Check the red.** Run the tests it reports. They must fail for the expected reason (missing behavior or missing interface). If they fail for another reason, or already pass, send that back to the test-writer — do not fix it yourself.
 3. **Freeze the tests.** Stage the test files and `TESTS.md` the test-writer reported (`git add <files>`): the index is now the baseline. Do not stage anything else, and do not stage anything until the slice is green.
 4. **Green.** Inspect the implementation in detail and write only enough production code to make the tests pass. Don't anticipate future tests or add speculative features.
@@ -50,7 +48,7 @@ Refactoring is not part of the loop. It belongs to the review stage (`code-revie
 Stop implementing that slice. Send to the test-writer (continue the agent) or, if it is gone, to a new one:
 
 * the test (`file › name` and `TESTS.md` ID);
-* why you believe it contradicts the spec or the agreed seam, quoting the spec;
+* why you believe it contradicts the spec, quoting the spec;
 * the behavior you believe is expected.
 
 The test-writer decides from the specification. If you still disagree with its answer, ask the user. Never resolve the disagreement by editing the test.

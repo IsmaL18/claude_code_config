@@ -1,6 +1,6 @@
 ---
 name: test-authoring
-description: Write tests from a specification or acceptance criteria, before the implementation, and record them in TESTS.md. Used by the test-writer role when the task contract sets separation, and by the implementation session when it sets `même session`. Applies the contract's test strategy (validated plan or strict selection).
+description: Write tests from a specification or acceptance criteria, before the implementation, and record them in TESTS.md. Used by the test-writer role when the task contract sets separation, and by the implementation session when it sets `même session`. Writes the tests directly, without a plan to validate.
 ---
 # Test authoring
 
@@ -19,7 +19,7 @@ You may create, modify or delete:
 
 You must never modify production code — not even to add a missing symbol, an export or a stub so that your test compiles. A test that fails because the behavior or the interface does not exist yet is a correct red.
 
-Derive tests from the specification, the acceptance criteria, the ADRs and the agreed seams. You may read public interfaces (signatures, types, routes, schemas) to place the tests correctly. Do not read implementation internals to decide what to assert: a test copied from the code encodes the code's mistakes.
+Derive tests from the specification, the acceptance criteria, and the ADRs. You may read public interfaces (signatures, types, routes, schemas) to place the tests correctly. Do not read implementation internals to decide what to assert: a test copied from the code encodes the code's mistakes.
 
 ## What a good test is
 Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. A good test reads like a specification: "user can checkout with valid cart" tells you exactly what capability exists, and it survives refactors because it doesn't care about internal structure.
@@ -29,9 +29,11 @@ See tests.md for examples and mocking.md for mocking guidelines.
 ## Seams: where tests go
 A seam is the public boundary you test at: the interface where you observe behavior without reaching inside. Tests live at seams, never against internals.
 
-Test only at pre-agreed seams. The seams under test are written down and confirmed with the user before any test is written; you receive them in your brief. No test is written at an unconfirmed seam — if the brief has none, or you need a seam it does not list, stop and report it instead of guessing. You can't test everything, so agreeing the seams up front is how testing effort lands on the critical paths and complex logic instead of every edge case.
+Pick the seam yourself: the highest public interface that already exists in the project for that behavior (an HTTP route, a port, a public function), taken from the spec, the ADRs and the brief. No confirmation is needed. Name the seams you used in your report.
 
-When the shape of that interface is itself in question (how deep the module is, where the seam belongs, what the interface should expose), stop and report it. Do not decide the interface.
+Reuse the project's shared test helpers (app factory, stores, fixtures) instead of building the system under test by hand in each file. A rule that applies to many tests (a new guard, a new dependency) must be absorbed by one helper, not by every test file.
+
+Only when the interface does not exist yet and its shape is itself in question (how deep the module is, what it should expose), report it. Do not decide the interface.
 
 ## What deserves a test
 
@@ -48,11 +50,9 @@ Automated visual regression only when the project already has it or the brief as
 
 ## Test strategy
 
-The brief gives the contract's test strategy.
+Write the tests directly, under "What deserves a test" (strategy `écriture directe`; an older brief may still say `sélection stricte` or `plan validé`: treat both the same way). There is no plan to submit. With `aucun test`, write none.
 
-* `plan validé`: write no test yet. Return a plan, one line per test: name, seam, risk covered, why it is worth its cost, kind. Stop. Write only the tests the developer approved, when relaunched.
-* `sélection stricte`: write the tests directly, under "What deserves a test".
-* No strategy in the brief: report it and stop.
+Keep it small: a slice usually needs a handful of tests. Prefer one test that walks an acceptance criterion end to end over several tests of its parts.
 
 ## Anti-patterns
 Implementation-coupled: mocks internal collaborators, tests private methods, or verifies through a side channel (querying the database instead of using the interface). The tell: the test breaks when you refactor but behavior hasn't changed.
@@ -62,11 +62,11 @@ Horizontal slicing: writing all tests first, then all implementation. Bulk tests
 
 ## Procedure
 
-1. Read the specification or acceptance criteria, the relevant ADRs, the agreed seams and the existing `TESTS.md`.
+1. Read the specification or acceptance criteria and the relevant ADRs. In `TESTS.md`, read only the next free ID and the section you will extend (`grep`, `tail`): never the whole file.
 2. Write the smallest useful set of tests for the requested slice, under "What deserves a test". Map each acceptance criterion of the slice to at most one test, unless justified.
 3. For an external integration, include at least one test exercising the real client's validation path (request construction, schema transformation, serialization) — a mock never validates an external contract.
 4. Any property stated as a guarantee (spec, ADR, docstring) gets a test named so the guarantee can be traced back to it.
-5. Run the new tests and confirm they fail for the expected reason: missing behavior or missing interface — never a typo, a broken import of a test helper or a syntax error in the test itself.
+5. Run only the test files you touched (never the full suite) and confirm the new tests fail for the expected reason: missing behavior or missing interface — never a typo, a broken import of a test helper or a syntax error in the test itself.
    - If a test already passes, check whether the behavior already exists or the test is insufficient, and say which.
 6. Record every test you wrote, changed or removed in `TESTS.md` (format below).
 7. Run the lint (and typecheck when the project has one) on the test files you created or modified and fix what it reports: unused imports, formatting, types. Use the project's own command (e.g. `ruff`, `eslint`). Test files must be lint-clean before you report.
@@ -103,7 +103,7 @@ Records every test written. When separation applies, only the test-writer role e
 
 Return:
 
-* the plan (strategy `plan validé`, first pass) or the slice and the seams tested;
+* the slice and the seams tested;
 * the test files written or changed;
 * the `TESTS.md` IDs added or changed;
 * the command to run them and the red result with its failure reason;

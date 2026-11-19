@@ -1,0 +1,6 @@
+Outfit-wght.ttf : police Outfit (variable, axe de graisse), copiée telle quelle pour mesurer le texte des slides.
+
+Copyright 2021 The Outfit Project Authors (https://github.com/Outfitio/Outfit-Fonts)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is available with a FAQ at: https://openfontlicense.org
