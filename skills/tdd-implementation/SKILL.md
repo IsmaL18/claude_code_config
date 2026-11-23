@@ -29,7 +29,7 @@ When a test looks wrong, stop and send it back to the test-writer with the evide
 ## Before the loop
 
 0. **Baseline.** Before any test is added, run the test files of the touched scope (never the full suite) and note the failures already present. At the end of each slice, compare with this baseline instead of stashing your changes to find out whether a failure is yours.
-1. Read the specification or acceptance criteria.
+1. Read the specification or acceptance criteria, the ADRs, and the hand-off memory `handoff-<task-slug>.md` when the prompt references it. If the prompt has no contract line, ask for it before working.
 2. Cut the work into vertical slices: one behavior per slice. Horizontal slicing (all tests first, then all code) is an anti-pattern. No seam or plan confirmation with the user: the test author picks the seams, the review judges the tests.
 
 ## The loop, per slice

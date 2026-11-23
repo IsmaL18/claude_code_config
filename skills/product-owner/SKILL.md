@@ -34,6 +34,7 @@ The spec should contain:
 - functional behavior;
 - acceptance criteria;
 - relevant edge cases;
+- decisions and non-goals: every product decision taken with the user during the session, including rejected options and why (this session's conversation is lost on `/clear`; only the spec survives);
 - open questions, if any.
 
 Write acceptance criteria so they can later become tests or delivery checks.
@@ -45,7 +46,7 @@ When the contract sets Next step to `oui`, end with the **Next step** block defi
 
 Routing:
 
-* the spec implies an architectural decision (new subsystem, external integration, data model, auth, cross-module) → `architect`, new session recommended; the prompt gives the spec path and the decision to make.
+* the spec implies an architectural decision (new subsystem, external integration, data model, auth, cross-module) → `architect`, new session recommended; the prompt gives the contract line, the spec path and the decision to make.
 * otherwise → `tdd-implementation`, new session; the prompt gives the contract line, the spec path, the acceptance criteria IDs and asks to proceed per the contract (test strategy, separation, plan gate).
 * open questions remain that block implementation → stay in `product-owner` and say which answers are needed.
 

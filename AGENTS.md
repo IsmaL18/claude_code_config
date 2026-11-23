@@ -279,6 +279,18 @@ When the contract sets Next step to `oui`, before ending the session, record:
 
 Record this in the project memory, not in a repository file: progress state is not documentation and it expires fast.
 
+#### Where each kind of information lives
+
+`/clear` between roles destroys the conversation. Before ending a role whose next step is a fresh session, every piece of information must sit in one of three places:
+
+| Kind | Where | Examples |
+|---|---|---|
+| **Durable decisions** | the artifact the role produces, versioned: spec (`Decisions and non-goals`), ADR (`consequences`) | non-goals, rejected options, business rules, constraints the implementation must respect |
+| **Progress state** | project memory, file `handoff-<task-slug>.md` (update it, never duplicate) | contract line, plan and slices, what is done, what is not verified, open questions, the Next step prompt |
+| **Everything else** | lost on `/clear` — do not rely on it | reasoning, discarded drafts, conversational agreements |
+
+Never put a durable decision in memory only (it is local, unversioned and invisible to a fresh-context role). Never put progress state in the spec or ADR. A fresh-context role that must not read code (`product-owner`) must find no code detail in the hand-off it reads.
+
 ---
 
 ### End every role with the next step and its prompt
@@ -291,6 +303,7 @@ When the contract sets Next step to `oui` and a role finishes (product owner, ar
 **Role:** <role> — skill `<skill>` (or agent `<agent>`)
 **Session:** new session (mandatory | recommended) | continue this session | launch as agent from the implementation session
 **Why:** <one line: what this step resolves>
+**Before sending:** type `/clear` (when the session is new), then paste the prompt. Nothing from this conversation survives. The prompt is also saved in the hand-off memory `handoff-<task-slug>.md`.
 
 Prompt to send:
 
@@ -306,6 +319,8 @@ Use the `<skill>` skill.
 Rules for the prompt:
 
 * **Self-contained.** A new session has none of this context: give the repository, the contract line, the paths of the spec, ADRs, `TESTS.md` and branch, what is done, what remains, and the open questions or review findings to process.
+* **The contract line is mandatory, in every prompt, without exception.** One line: level, spec, ADR, reviews, Next step, tests, separation, proof. A prompt without it is incomplete.
+* **Reference the hand-off.** End the prompt with: "Hand-off memory: `handoff-<task-slug>.md` — read it first." The role reads it before working. Durable decisions are in the spec or ADR the prompt points to, not only in the hand-off.
 * **Respect the boundary of the next role.** The prompt for `product-owner` contains no code or implementation detail; the brief for `test-writer` contains no implementation idea; the prompt for a reviewer does not argue that the change is correct.
 * **One block per turn.** If the user already asked for the following steps (e.g. `pre-delivery-check` then `deliver`), do them in sequence and produce a single **Next step** block, at the very end. Same when a review is launched from the implementation session: no intermediate block.
 * **Pick one.** Recommend a single next step; list alternatives only with the condition that would select them.

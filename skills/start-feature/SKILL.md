@@ -17,7 +17,7 @@ Run `task-kickoff` first. The level and the spec and ADR choices come from the c
    - relevant edge cases.
 3. Spec `non` → write the acceptance criteria in the conversation, in a few lines, and get them validated.
 4. ADR `oui` → use the `architect` workflow and create an ADR in `docs/adr/`.
-5. Produce a short implementation plan tied to the acceptance criteria.
+5. Produce a short implementation plan tied to the acceptance criteria. When the next step is a fresh session, save the plan in the hand-off memory `handoff-<task-slug>.md` (see `AGENTS.md`), since the conversation will be lost.
 6. Continue with `tdd-implementation` when the contract includes tests. Otherwise, implement and prove with the contract's proof.
 
 A product ambiguity or an architectural decision the contract did not anticipate: report it to the developer and propose to amend the contract.

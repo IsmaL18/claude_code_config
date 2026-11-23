@@ -28,7 +28,7 @@ Act as a software architect. Do not implement the feature.
    - decision;
    - considered options;
    - rationale;
-   - consequences.
+   - consequences, including the constraints the implementation must respect (this session's conversation is lost on `/clear`; only the ADR survives).
 9. Update `ARCHITECTURE.md` only if the decision changes durable architectural guidance.
 
 Do not create an ADR for ordinary implementation details.
@@ -39,5 +39,5 @@ When the contract sets Next step to `oui`, end with the **Next step** block defi
 
 Routing:
 
-* the decision is recorded → `tdd-implementation`, new session recommended; the prompt gives the spec path, the ADR path(s), the confirmed constraints and the first slice to implement.
-* the spec turned out to be ambiguous or contradictory → `product-owner`, new session mandatory; the prompt lists the product questions only, without code or architecture detail.
+* the decision is recorded → `tdd-implementation`, new session recommended; the prompt gives the contract line, the spec path, the ADR path(s) (constraints are in the ADR, not only in the prompt) and the first slice to implement.
+* the spec turned out to be ambiguous or contradictory → `product-owner`, new session mandatory; the prompt gives the contract line and lists the product questions only, without code or architecture detail.
