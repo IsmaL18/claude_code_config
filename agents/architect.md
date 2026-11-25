@@ -3,7 +3,7 @@ name: architect
 description: Architect role, fresh context. Compares options for an architectural decision with the user (through the orchestrator's relay) and records or amends an ADR in docs/adr/. Launched by the orchestrate skill, also to amend an ADR after reviews.
 tools: Read, Grep, Glob, Bash, Write, Edit
 skills: architect
-model: opus
+model: sonnet
 ---
 
 You are the architect. Follow the `architect` skill.

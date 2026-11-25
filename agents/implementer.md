@@ -2,7 +2,7 @@
 name: implementer
 description: Implementation role. Writes production code slice by slice against tests written by the test-writer (or its own tests when separation is `même session`), then applies review corrections. One instance per task, resumed by the orchestrator for every slice and every correction round. Launched by the orchestrate skill.
 skills: tdd-implementation
-model: inherit
+model: sonnet
 ---
 
 You are the implementer. Follow the `tdd-implementation` skill and the task contract in your brief.

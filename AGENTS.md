@@ -227,10 +227,10 @@ Do not poll a sub-agent that finishes in well under a minute: launch it in the f
 The model of a sub-agent is a cost decision: pick the smallest model that can do the task reliably, not the model of the current session.
 
 * `haiku` — read-only search, inventories, locating files or usages, summarizing logs;
-* `sonnet` — the default for the defined agents (`test-writer`, `tester`, `code-reviewer`, `security-reviewer`) and for standard writing or review tasks;
-* `opus` — reasoning-heavy or high-risk work: structural or cross-module changes, subtle concurrency or security issues, a disputed test, a review that a smaller model already got wrong.
+* `sonnet` — the default for every defined agent and for ad-hoc agents (`CLAUDE_CODE_SUBAGENT_MODEL=sonnet` in `settings.json`), including reasoning-heavy or high-risk work;
+* `opus` — **never**, unless the user explicitly asks for it for that agent. Not even when the orchestrating session itself runs on Opus, and never through `inherit` or `fork`.
 
-When launching an agent, override its default model explicitly whenever the task is lighter or harder than usual, and say which model you chose and why in one line.
+When launching an agent, pass `haiku` explicitly when the task is lighter than usual, and say which model you chose and why in one line. When a task seems to need more than `sonnet`, say so and let the user decide.
 
 ---
 

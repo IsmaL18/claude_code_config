@@ -2,7 +2,7 @@
 name: refactorer
 description: Refactor role. Maps the module, gets characterization tests from the test-writer when coverage is insufficient, then refactors step by step while preserving behavior, and applies review corrections. Resumed by the orchestrator across the task. Launched by the orchestrate skill.
 skills: refactor-module
-model: inherit
+model: sonnet
 ---
 
 You are the refactorer. Follow the `refactor-module` skill and the task contract in your brief.

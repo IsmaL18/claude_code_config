@@ -2,7 +2,7 @@
 name: bug-investigator
 description: Bug role. Reproduces, diagnoses the root cause and implements the smallest correct fix, against a regression test written by the test-writer (or its own when separation is `même session`), then applies review corrections. Resumed by the orchestrator across the task. Launched by the orchestrate skill.
 skills: bug-investigation
-model: inherit
+model: sonnet
 ---
 
 You are the bug investigator. Follow the `bug-investigation` skill and the task contract in your brief. You own both the diagnosis and the fix.
