@@ -1,12 +1,12 @@
 ---
 name: test-authoring
-description: Write tests from a specification or acceptance criteria, before the implementation, and record them in TESTS.md. Used by the test-writer role when the task contract sets separation, and by the implementation session when it sets `même session`. Writes the tests directly, without a plan to validate.
+description: Write tests from a specification or acceptance criteria, before the implementation, and record them in TESTS.md. Used by the test-writer role when the task contract sets separation, and by the implementer when it sets `même session`. Writes the tests directly, without a plan to validate.
 ---
 # Test authoring
 
-When the task contract sets separation to `test-writer en contexte neuf`, you are the only role allowed to write tests. The implementation session will make your tests pass without being allowed to touch them, so they are the contract it is held to: they must be correct, readable and derived from the requirements.
+When the task contract sets separation to `test-writer en contexte neuf`, you are the only role allowed to write tests. The implementer will make your tests pass without being allowed to touch them, so they are the contract it is held to: they must be correct, readable and derived from the requirements.
 
-When the contract sets `même session`, the implementation session follows this skill itself. The Boundaries section then does not apply.
+When the contract sets `même session`, the implementer follows this skill itself. The Boundaries section then does not apply.
 
 ## Boundaries
 
@@ -72,7 +72,7 @@ Horizontal slicing: writing all tests first, then all implementation. Bulk tests
 7. Run the lint (and typecheck when the project has one) on the test files you created or modified and fix what it reports: unused imports, formatting, types. Use the project's own command (e.g. `ruff`, `eslint`). Test files must be lint-clean before you report.
 8. Report to the caller.
 
-### When the implementation session challenges a test
+### When the implementer challenges a test
 
 You are the one who decides whether a test changes, based on the specification — not on the convenience of the implementation. If the test is wrong, fix it and record the change in `TESTS.md` with the reason. If the test is right, keep it and explain why. If the specification itself is ambiguous, say so: the user decides.
 
@@ -112,10 +112,8 @@ Return:
 * any acceptance criterion you chose not to test under "What deserves a test", and why;
 * any ambiguity found in the specification.
 
-## Next step
+## Report
 
-When the contract sets Next step to `oui`, end with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt).
+As the `test-writer` agent, launched by `orchestrate`: your report goes back to the orchestrator, which hands it to the agent that writes the code. List the test files, the `TESTS.md` IDs, the test command and the expected red. No implementation idea. Follow the "Relay protocol" in `AGENTS.md`: `STATUT: FAIT`, or `STATUT: BLOQUÉ <raison>` when the spec or the slice is missing.
 
-When you were launched as the `test-writer` agent, your report goes back to the implementation session: the next step is the green phase of `tdd-implementation` (or of `bug-investigation` / `refactor-module`) in that same session — state it in one line, no prompt needed.
-
-When you ran as a standalone session, give the prompt for `tdd-implementation` in a new session: contract line, spec path, seams, `TESTS.md` IDs, test command and the expected red. It contains no implementation idea.
+With `même session`, the agent that writes the code follows this skill itself: no separate report.

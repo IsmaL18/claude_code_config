@@ -7,7 +7,7 @@ description: Perform final verification before delivering a code change. Use aft
 
 Do not introduce new functionality during this workflow.
 
-Verify the task contract (see `task-kickoff`), not a fixed checklist. If no contract line exists, ask the developer for it before checking.
+Verify the task contract (see `task-kickoff`), not a fixed checklist. If no contract line exists, report `STATUT: BLOQUÉ contrat`. You run as the `pre-delivery-checker` agent: you change nothing.
 
 Touch-up runs a reduced check: steps 1, 3 and 7 only, plus the diff-scope, debug-code and secret checks of step 5. Prototype never runs this check: it is never delivered.
 
@@ -35,8 +35,8 @@ Touch-up runs a reduced check: steps 1, 3 and 7 only, plus the diff-scope, debug
    - unresolved TODOs introduced by the change;
    - missing durable documentation.
 6. Confirm relevant review findings have been resolved or explicitly accepted, by whom it belongs to:
-   - **non-blocking findings** on production code may be accepted by this session, if each is listed in the report with a one-line reason;
-   - **findings about tests**, with separation, are never accepted by this session: they go to the `test-writer` agent, or to the user if there is a disagreement;
+   - **non-blocking findings** on production code may be accepted by the agent that wrote the code, if each is listed in its report with a one-line reason;
+   - **findings about tests**, with separation, are never accepted by the agent that wrote the code: they go to the `test-writer` agent, or to the user if there is a disagreement;
    - **blocking findings** need the user's agreement to be accepted.
 7. Do not claim success for checks that were not executed.
 
@@ -48,11 +48,6 @@ Return a concise checklist with:
 - non-blocking concerns;
 - final verdict: READY or NOT READY.
 
-## Next step
+## Report
 
-When the contract sets Next step to `oui`, end with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt).
-
-Routing:
-
-* READY → `deliver`, continue this session.
-* NOT READY → back to the role that owns the blocker: implementation (`tdd-implementation`, continue this session) for code, `test-writer` agent for tests, `product-owner` (new session) for a spec gap. The prompt lists the failing checks and blockers.
+End with `STATUT: READY` or `STATUT: NOT READY` (see "Relay protocol" in `AGENTS.md`). Tag each blocker with its owner: `implementer`, `bug-investigator` or `refactorer` for code, `test-writer` for tests, `architect` for an ADR, `product-owner` for a spec gap, `user` for a risk to accept.

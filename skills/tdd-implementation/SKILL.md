@@ -1,13 +1,15 @@
 ---
 name: tdd-implementation
-description: Implement behavior test-first from a specification or acceptance criteria, following the task contract — tests written by the separate test-writer role when separation is chosen, by this session otherwise. Use for features and fixes where expected behavior can be verified with automated tests.
+description: Implement behavior test-first from a specification or acceptance criteria, following the task contract — tests written by the separate test-writer role when separation is chosen, by the implementer itself otherwise. Loaded by the `implementer` agent. Use for features and fixes where expected behavior can be verified with automated tests.
 ---
 # Test-Driven Development
 
 TDD is the red → green loop. The task contract (see `task-kickoff`) sets who writes the tests:
 
-* `test-writer en contexte neuf`: the **test-writer** (agent `test-writer`, skill `test-authoring`) writes the failing tests and records them in `TESTS.md`; **this session** writes the production code that makes them pass. "The rule" below applies.
-* `même session`: this session writes the tests first, under the `test-authoring` skill, then the code. "The rule" does not apply. Skip steps 3 and 5 of the loop.
+* `test-writer en contexte neuf`: the **test-writer** (agent `test-writer`, skill `test-authoring`) writes the failing tests and records them in `TESTS.md`; **you** (agent `implementer`) write the production code that makes them pass. "The rule" below applies.
+* `même session`: you write the tests first, under the `test-authoring` skill, then the code. "The rule" does not apply. Skip steps 3 and 5 of the loop.
+
+You run as the `implementer` agent, launched and resumed by `orchestrate`. You cannot launch the test-writer yourself: you ask for its tests with `STATUT: BESOIN_TESTS`, and the orchestrator resumes you with its report. Follow the "Relay protocol" in `AGENTS.md`.
 
 Tests are written directly, with no plan to validate, under "What deserves a test" in `AGENTS.md`.
 
@@ -15,7 +17,7 @@ Tests are written directly, with no plan to validate, under "What deserves a tes
 
 **You are not allowed to modify tests. Absolutely.**
 
-This session must never create, modify, delete, rename, skip, disable, mark as expected-failure or weaken:
+You must never create, modify, delete, rename, skip, disable, mark as expected-failure or weaken:
 
 * a test file;
 * a test fixture, test data, snapshot or test helper;
@@ -29,13 +31,13 @@ When a test looks wrong, stop and send it back to the test-writer with the evide
 ## Before the loop
 
 0. **Baseline.** Before any test is added, run the test files of the touched scope (never the full suite) and note the failures already present. At the end of each slice, compare with this baseline instead of stashing your changes to find out whether a failure is yours.
-1. Read the specification or acceptance criteria, the ADRs, and the hand-off memory `handoff-<task-slug>.md` when the prompt references it. If the prompt has no contract line, ask for it before working.
-2. Cut the work into vertical slices: one behavior per slice. Horizontal slicing (all tests first, then all code) is an anti-pattern. No seam or plan confirmation with the user: the test author picks the seams, the review judges the tests.
+1. Read the specification or acceptance criteria, the ADRs, and the hand-off memory `handoff-<task-slug>.md` named in your brief. If the brief has no contract line, report `STATUT: BLOQUÉ contrat`.
+2. Cut the work into vertical slices: one behavior per slice, each tied to acceptance criteria. Horizontal slicing (all tests first, then all code) is an anti-pattern. Report them with `STATUT: PLAN`. No seam confirmation: the test author picks the seams, the review judges the tests.
 
 ## The loop, per slice
 
-1. **Red.** With separation: launch the `test-writer` agent with a brief containing: the contract line, the spec path or acceptance criteria, the slice to cover, and the test conventions of the repository (location, runner, command). Do not include your implementation ideas. For the next slices, continue the same test-writer agent rather than starting a new one, so it keeps the test-side context. Choose its model for the slice (see "Choose the sub-agent model for the task" in `AGENTS.md`): its default `sonnet` for ordinary slices, `opus` for a tricky seam or a disputed test.
-2. **Check the red.** Run the tests it reports. They must fail for the expected reason (missing behavior or missing interface). If they fail for another reason, or already pass, send that back to the test-writer — do not fix it yourself.
+1. **Red.** With separation: report `STATUT: BESOIN_TESTS <slice>` with the slice to cover and the test conventions of the repository (location, runner, command). No implementation idea. The orchestrator gets the tests from the test-writer and resumes you with its report.
+2. **Check the red.** Run the tests it reports. They must fail for the expected reason (missing behavior or missing interface). If they fail for another reason, or already pass, report it with `STATUT: TEST_CONTESTÉ` — do not fix it yourself.
 3. **Freeze the tests.** Stage the test files and `TESTS.md` the test-writer reported (`git add <files>`): the index is now the baseline. Do not stage anything else, and do not stage anything until the slice is green.
 4. **Green.** Inspect the implementation in detail and write only enough production code to make the tests pass. Don't anticipate future tests or add speculative features.
 5. **Prove you didn't touch the tests.** `git diff --name-only` must list no test file and not `TESTS.md`. If one appears, revert your change to it (`git checkout -- <file>`) and fix the production code instead.
@@ -45,32 +47,33 @@ Refactoring is not part of the loop. It belongs to the review stage (`code-revie
 
 ## When a test looks wrong
 
-Stop implementing that slice. Send to the test-writer (continue the agent) or, if it is gone, to a new one:
+Stop implementing that slice. Report `STATUT: TEST_CONTESTÉ` with:
 
 * the test (`file › name` and `TESTS.md` ID);
 * why you believe it contradicts the spec, quoting the spec;
 * the behavior you believe is expected.
 
-The test-writer decides from the specification. If you still disagree with its answer, ask the user. Never resolve the disagreement by editing the test.
+The orchestrator sends it to the test-writer, which decides from the specification; if you still disagree, the user decides. Never resolve the disagreement by editing the test.
 
 ## Implementation rules
 
-For an external integration, make the thinnest end-to-end path work against the real system before deepening — a mock never validates an external contract. If a real-client test is missing, ask the test-writer for it.
+For an external integration, make the thinnest end-to-end path work against the real system before deepening — a mock never validates an external contract. If a real-client test is missing, ask for it with `STATUT: BESOIN_TESTS`.
 
 Any behavior you state as a guarantee, in a docstring or a commit message, must have a test that holds it. If it doesn't, get one from the test author the contract sets, or don't state it. Never state a visual or design rule as a guarantee.
 
 Do not derive expected behavior from existing code when a specification defines it.
 
-End with a concise mapping of acceptance criteria to `TESTS.md` IDs (or to the contract's proof when a criterion is not tested), the verification results, and, with separation, the confirmation that no test file was modified by this session (`git diff --name-only` output).
+End with a concise mapping of acceptance criteria to `TESTS.md` IDs (or to the contract's proof when a criterion is not tested), the verification results, and, with separation, the confirmation that you modified no test file (`git diff --name-only` output).
 
-## Next step
+## Report
 
-When the contract sets Next step to `oui`, end with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt). Otherwise, end with the 3-line summary.
+End each turn with one status line (see "Relay protocol" in `AGENTS.md`):
 
-Routing:
+* first turn → `STATUT: PLAN` with the slices;
+* tests needed for a slice → `STATUT: BESOIN_TESTS <slice>`;
+* a test looks wrong → `STATUT: TEST_CONTESTÉ` with the evidence;
+* slice green → `STATUT: VERT <slice>` with the mapping above for that slice;
+* review corrections applied → `STATUT: FAIT` with each finding and how it was fixed;
+* a spec or ADR gap, or a decision the contract did not anticipate → `STATUT: BLOQUÉ <raison>`.
 
-* all slices green, reviews `fusionnée` → `code-reviewer` in merged mode, fresh context.
-* all slices green, reviews `séparées` → `tester` and `code-reviewer` (and `security-reviewer` when security is relevant), each in a fresh context.
-* Launch reviewers as agents from this session (model chosen per `AGENTS.md`: `sonnet` by default, `opus` for a structural or high-risk diff) or give one prompt per reviewer for a new session. Each prompt gives the contract line, the spec path, the ADRs, `TESTS.md`, the branch and the diff range to review.
-* all slices green, reviews `aucune`, or reviews done and findings fixed → `pre-delivery-check`, continue this session.
-* a test is disputed → `test-writer` agent with the evidence (see "When a test looks wrong"); the user decides if the disagreement remains.
+Reviews, pre-delivery and delivery are launched by the orchestrator, not by you.

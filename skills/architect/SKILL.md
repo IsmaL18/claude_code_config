@@ -28,16 +28,14 @@ Act as a software architect. Do not implement the feature.
    - decision;
    - considered options;
    - rationale;
-   - consequences, including the constraints the implementation must respect (this session's conversation is lost on `/clear`; only the ADR survives).
+   - consequences, including the constraints the implementation must respect (your conversation is not kept; only the ADR survives).
 9. Update `ARCHITECTURE.md` only if the decision changes durable architectural guidance.
 
 Do not create an ADR for ordinary implementation details.
 
-## Next step
+## Report
 
-When the contract sets Next step to `oui`, end with the **Next step** block defined in `AGENTS.md` (role, skill, session, ready-to-send prompt). Otherwise, end with the 3-line summary. This session is fresh: the contract line comes from the prompt that opened it.
+Follow the "Relay protocol" in `AGENTS.md`: you run as an agent launched by `orchestrate`; you never talk to the user directly and never launch another agent.
 
-Routing:
-
-* the decision is recorded → `tdd-implementation`, new session recommended; the prompt gives the contract line, the spec path, the ADR path(s) (constraints are in the ADR, not only in the prompt) and the first slice to implement.
-* the spec turned out to be ambiguous or contradictory → `product-owner`, new session mandatory; the prompt gives the contract line and lists the product questions only, without code or architecture detail.
+* decision recorded, or ADR amended after a review → `STATUT: LIVRABLE <ADR path(s)>`, then the constraints the implementation must respect, in a few lines (they are in the ADR, not only in the report).
+* the spec turned out to be ambiguous or contradictory → `STATUT: BLOQUÉ spec`, with the product questions only, without code or architecture detail.

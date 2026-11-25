@@ -206,13 +206,10 @@ End with a short assessment of whether the change is ready to proceed to deliver
 
 If the implementation is good, approve it clearly instead of inventing issues.
 
-### Next step
+### Report
 
-When the brief's contract sets Next step to `oui`, end with the **Next step** block defined in `AGENTS.md`. Your report goes to the implementation session or the user:
+Your report goes to the orchestrator (`orchestrate`), which routes the findings. End with `STATUT: FINDINGS bloquant` or `STATUT: FINDINGS non bloquant` (see "Relay protocol" in `AGENTS.md`), the findings listed by severity with their location and, for each, its owner: the agent that wrote the code, the `test-writer` for a test, the `architect` for an ADR.
 
-* verdict blocking → corrections in the implementation session (`tdd-implementation`, `bug-investigation` or `refactor-module`, whichever produced the change); the prompt lists the findings to fix by severity, with their location.
-* verdict non-blocking → `pre-delivery-check`, in the implementation session, listing the accepted non-blocking findings.
-
-Write the prompt; do not perform the next step yourself.
+Do not perform the corrections yourself.
 
 If your brief gives a progress file path, overwrite it at each major step with `step n/N`, what is done and what remains, so the caller can tell the user where you stand. Do not write anywhere else for this purpose.

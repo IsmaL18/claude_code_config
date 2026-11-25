@@ -9,43 +9,58 @@ The goal is to use the **smallest workflow that provides sufficient confidence**
 
 ---
 
-## 1. Start every task with `task-kickoff`
+## 1. Start every task with `task-kickoff`, then `orchestrate`
 
 Every task starts with the `task-kickoff` skill. No exception.
 
-The form sets the task contract: level, spec, ADR, reviews, Next step, test strategy, code/test separation, proof of done. The developer validates it. Every rule below applies within that contract.
+The form sets the task contract: level, spec, ADR, reviews, chaining (`Enchaînement`), test strategy, code/test separation, proof of done. The developer validates it. Every rule below applies within that contract.
 
-Levels and their carriers:
+Then the same session runs the `orchestrate` skill, for every level except Out of workflow. **One session per task.** The orchestrating session only orchestrates: it may read anything, code included, to understand and route, but the only file it writes is the hand-off memory. Every role is an agent launched by it, in its own context, that loads the role's skill:
 
-* **Out of workflow** — no rule of this workflow applies.
-* **Touch-up** — presentation only. No skill.
-* **Prototype** — disposable code on a dedicated branch. Never merged as is.
-* **Bug** — `bug-investigation`. Do not patch symptoms. After two similar failed attempts, stop and reassess the diagnosis.
-* **Feature** — `start-feature`, then `tdd-implementation`.
-* **Structural** — `start-feature`, then `tdd-implementation`, full role chain below.
-* **UI redesign** — no skill. The contract still sets tests and proof.
-* **Refactor** — `refactor-module`.
+| Agent | Skill | Produces |
+|---|---|---|
+| `product-owner` | `product-owner` | `specs/NNN-*.md` |
+| `architect` | `architect` | `docs/adr/NNNN-*.md`, amended ADRs |
+| `test-writer` | `test-authoring` | tests + `TESTS.md` |
+| `implementer` | `tdd-implementation` | production code, corrections |
+| `bug-investigator` | `bug-investigation` | diagnosis, fix, corrections |
+| `refactorer` | `refactor-module` | refactoring, corrections |
+| `tester`, `code-reviewer`, `security-reviewer` | — | findings only |
+| `pre-delivery-checker` | `pre-delivery-check` | READY / NOT READY |
+| `deliver` | `deliver` | commits, push, PR |
 
-Other skills, invoked explicitly: `existing-project-bootstrap`, `architecture-audit`.
+Levels and their pipeline (details in `orchestrate`):
+
+* **Out of workflow** — no rule of this workflow applies. No orchestration.
+* **Touch-up** — presentation only. `implementer`, then a reduced pre-delivery check.
+* **Prototype** — disposable code on a dedicated branch, by the `implementer`. Never merged as is.
+* **Bug** — `bug-investigator`. Do not patch symptoms. After two similar failed attempts, stop and reassess the diagnosis.
+* **Feature** — `[product-owner]` → `[architect]` → `implementer` slice by slice with the `test-writer`.
+* **Structural** — same as Feature, full role chain below.
+* **UI redesign** — `implementer`. The contract still sets tests and proof.
+* **Refactor** — `[architect]` → `refactorer`.
+
+Other skills, invoked explicitly, outside the pipeline: `existing-project-bootstrap`, `architecture-audit`.
 
 ### Session boundaries
 
-A fresh context is mandatory where independence is the point. Continuity is an asset everywhere else.
+A fresh context is mandatory where independence is the point. Continuity is an asset everywhere else: it is kept by **resuming the same agent** (`SendMessage`, by name), never by doing the work in the orchestrating session.
 
 | Step | When | Context | May read | Must NOT read | Produces |
 |---|---|---|---|---|---|
-| `product-owner` | spec chosen | fresh, **mandatory** | `PRODUCT.md`, `USER.md`, `specs/` | source code | `specs/NNN-*.md` |
-| `architect` | ADR chosen | fresh, recommended | spec, `ARCHITECTURE.md`, ADRs, code structure | — | `docs/adr/NNNN-*.md` |
-| `test-writer` (skill `test-authoring`) | separation chosen | fresh, **mandatory** | spec, ADRs, public interfaces, existing tests, `TESTS.md` | implementation internals | tests + `TESTS.md` |
-| implementation | every level except Out of workflow | continuous | everything | — | production code; tests only if separation is `même session` |
+| `product-owner` | spec chosen | fresh, **mandatory**, enforced by a hook | `PRODUCT.md`, `USER.md`, `specs/` | source code | `specs/NNN-*.md` |
+| `architect` | ADR chosen, or an ADR to amend | fresh, resumed for amendments | spec, `ARCHITECTURE.md`, ADRs, code structure | — | `docs/adr/NNNN-*.md` |
+| `test-writer` (skill `test-authoring`) | separation chosen | fresh, **mandatory**, resumed slice after slice | spec, ADRs, public interfaces, existing tests, `TESTS.md` | implementation internals | tests + `TESTS.md` |
+| `implementer` / `bug-investigator` / `refactorer` | every level except Out of workflow | one agent per task, resumed for every slice and correction round | everything | — | production code; tests only if separation is `même session` |
 | `code-reviewer` (merged mode) | reviews `fusionnée` | fresh, **mandatory** | everything | — | findings only |
 | `tester` + `code-reviewer` + `security-reviewer` | reviews `séparées` | fresh, **mandatory** | everything | — | findings only |
-| corrections | after reviews | continuous | everything | — | code + amended ADRs |
-| `pre-delivery-check` → `deliver` | Bug, Feature, Structural, UI redesign, Refactor; Touch-up: reduced check only (see `pre-delivery-check`); Prototype: never | continuous | everything | — | delivery |
+| corrections | after reviews | the agent that produced the code (code), the `architect` (ADR), the `test-writer` (tests) | everything | — | code + amended ADRs |
+| `pre-delivery-checker` → `deliver` | Bug, Feature, Structural, UI redesign, Refactor; Touch-up: reduced check only (see `pre-delivery-check`); Prototype: never | fresh | everything | — | READY verdict, then delivery |
+| orchestrator (`orchestrate`) | every level except Out of workflow | continuous, compacted at phase ends | everything | — | hand-off memory only |
 
 `security-reviewer` runs only with reviews `séparées`, when security is relevant. In merged mode, `code-reviewer` flags the security issues it notices as findings, with no escalation.
 
-When reviews are not `aucune`, the implementation session is never the only reviewer of its own work.
+When reviews are not `aucune`, the agent that wrote the code is never the only reviewer of its own work.
 
 ---
 
@@ -131,11 +146,11 @@ This rule applies when the contract sets separation to `test-writer en contexte 
 When it applies, tests and production code are written by two separate roles, in two separate contexts:
 
 * the `test-writer` role (agent `test-writer`, skill `test-authoring`) writes and modifies tests, test fixtures, test helpers and test configuration, and records every test it writes in `TESTS.md` at the repository root;
-* the implementation session writes production code only.
+* the agent that writes the code (`implementer`, `bug-investigator`, `refactorer`) writes production code only.
 
-The implementation session **must never** create, modify, delete, skip, disable or weaken a test, a fixture, a snapshot, a test configuration or `TESTS.md` — not even to fix a typo, an import or an obviously wrong assertion. When a test looks wrong, it stops and sends the evidence back to the `test-writer`; if they disagree on the expected behavior, the user decides.
+That agent **must never** create, modify, delete, skip, disable or weaken a test, a fixture, a snapshot, a test configuration or `TESTS.md` — not even to fix a typo, an import or an obviously wrong assertion. When a test looks wrong, it stops and sends the evidence back to the `test-writer`; if they disagree on the expected behavior, the user decides.
 
-When the contract sets separation to `même session`, the implementation session writes its tests, test-first when practical, follows "What deserves a test", and records every test in `TESTS.md`.
+When the contract sets separation to `même session`, the agent that writes the code also writes its tests, test-first when practical, follows "What deserves a test", and records every test in `TESTS.md`.
 
 `TESTS.md` records every test written, whoever the author.
 
@@ -187,6 +202,8 @@ When no defined agent fits, create one on the fly: use the host's generic sub-ag
 Launch independent sub-agents in the same message so they run in parallel. Agents that write code in parallel get disjoint file scopes or an isolated worktree.
 
 Ad-hoc agents follow the same role boundaries as defined ones: when separation applies, they never write or modify tests (the `test-writer` role only). They never replace the reviews set in the contract.
+
+Sub-agents cannot launch sub-agents. A role that needs another role (the implementer needs tests, a reviewer's findings need a fix) reports it, and the orchestrating session launches the other role.
 
 A sub-agent's report is a claim, not a fact: verify the points you rely on before acting on them.
 
@@ -244,12 +261,12 @@ Do not compact when:
 
 How:
 
-1. Before compacting, make sure what matters survives: the decisions, the files touched, the open questions, what is not verified (see "Hand off before ending a session" for the content, kept in the project memory).
+1. Before compacting, make sure what matters survives: the decisions, the files touched, the open questions, what is not verified (the hand-off memory, see "Keep the hand-off up to date").
 2. Use `/compact` with a focus instruction naming what to keep (e.g. `/compact keep the agreed plan, the failing test names and the files modified`). If you cannot run it yourself, tell the user in one line why now is a good moment and give the exact command to type.
-3. Prefer `/clear` plus a self-contained prompt (the "Next step" block) when the next step is a new role or a fresh context anyway.
+3. In the orchestrating session, compact at the end of each phase (spec, ADR, slices green, reviews processed), once the hand-off is up to date. A new role never needs `/clear`: it is a fresh agent.
 4. Prefer delegating bulky exploration to a sub-agent so the raw output never enters the main context.
 
-Compacting never replaces a fresh-context role set in the contract (`product-owner`, `test-writer`, reviewers): those still start in a new session.
+Compacting never replaces a fresh-context role set in the contract (`product-owner`, `test-writer`, reviewers): those are always fresh agents.
 
 ---
 
@@ -268,69 +285,64 @@ The global instructions have a single source of truth: `~/.claude/AGENTS.md`, im
 
 ---
 
-### Hand off before ending a session
+### Keep the hand-off up to date
 
-When the contract sets Next step to `oui`, before ending the session, record:
+The orchestrating session overwrites the hand-off memory `handoff-<task-slug>.md` at every transition between roles (format in `orchestrate`). It records:
 
-1. **what is done**, and where to verify it (commits, tests);
-2. **what is not verified** — assumptions, paths never executed, estimated figures. This is the most important section, and the one that gets forgotten;
-3. **the decisions taken alone**, not yet reviewed;
-4. **the next step**, and the role that should take it.
+1. **the contract line, the branch, the current step** and the plan with the status of each slice;
+2. **the agents launched**, by name and id, so they can be resumed;
+3. **what is done**, and where to verify it (commits, tests);
+4. **what is not verified** — assumptions, paths never executed, estimated figures. This is the most important section, and the one that gets forgotten;
+5. **the decisions taken alone**, not yet reviewed;
+6. **the next action**.
 
-Record this in the project memory, not in a repository file: progress state is not documentation and it expires fast.
+Record it in the project memory, not in a repository file: progress state is not documentation and it expires fast. A task is resumed from it (« reprends <tâche> ») in any later session.
 
 #### Where each kind of information lives
-
-`/clear` between roles destroys the conversation. Before ending a role whose next step is a fresh session, every piece of information must sit in one of three places:
 
 | Kind | Where | Examples |
 |---|---|---|
 | **Durable decisions** | the artifact the role produces, versioned: spec (`Decisions and non-goals`), ADR (`consequences`) | non-goals, rejected options, business rules, constraints the implementation must respect |
-| **Progress state** | project memory, file `handoff-<task-slug>.md` (update it, never duplicate) | contract line, plan and slices, what is done, what is not verified, open questions, the Next step prompt |
-| **Everything else** | lost on `/clear` — do not rely on it | reasoning, discarded drafts, conversational agreements |
+| **Progress state** | project memory, file `handoff-<task-slug>.md` (update it, never duplicate) | contract line, plan and slices, agents, what is done, what is not verified, open questions |
+| **Everything else** | the conversation of an agent or of the orchestrator — lost on compaction or restart | reasoning, discarded drafts, conversational agreements |
 
-Never put a durable decision in memory only (it is local, unversioned and invisible to a fresh-context role). Never put progress state in the spec or ADR. A fresh-context role that must not read code (`product-owner`) must find no code detail in the hand-off it reads.
+Never put a durable decision in memory only (it is local, unversioned and invisible to a fresh-context role). Never put progress state in the spec or ADR. A role that must not read code (`product-owner`) gets no code detail in its brief.
 
 ---
 
-### End every role with the next step and its prompt
+### Relay protocol
 
-When the contract sets Next step to `oui` and a role finishes (product owner, architect, implementation, test writer, reviewer, delivery, bug investigation, refactoring, bootstrap, audit…), its last output to the user is a **Next step** block:
+Agents cannot talk to the user and cannot launch agents. Every role agent ends each turn with **one** status line, which the orchestrating session routes:
 
-````markdown
-## Next step
+| Status | Meaning |
+|---|---|
+| `QUESTIONS` | the agent needs the user; the block below follows |
+| `PLAN` | slices or steps proposed (implementer, refactorer) |
+| `BESOIN_TESTS <what>` | tests needed from the test-writer: a slice, a regression test (expected vs observed, reproduction), characterization tests |
+| `TEST_CONTESTÉ` | a test looks wrong; the evidence follows (see `tdd-implementation`) |
+| `LIVRABLE <path>` | spec or ADR written or amended |
+| `VERT` / `FAIT` | slice green / work done and verified |
+| `FINDINGS <bloquant \| non bloquant>` | review verdict, findings follow |
+| `READY` / `NOT READY` | pre-delivery verdict, blockers tagged with their owner |
+| `LIVRÉ` | delivered |
+| `BLOQUÉ <raison>` | the agent cannot continue without a decision |
 
-**Role:** <role> — skill `<skill>` (or agent `<agent>`)
-**Session:** new session (mandatory | recommended) | continue this session | launch as agent from the implementation session
-**Why:** <one line: what this step resolves>
-**Before sending:** type `/clear` (when the session is new), then paste the prompt. Nothing from this conversation survives. The prompt is also saved in the hand-off memory `handoff-<task-slug>.md`.
-
-Prompt to send:
+Questions use this block, at most 4 per turn, 2 to 4 options each, the recommended option first. Ask the whole current frontier at once:
 
 ```text
-Use the `<skill>` skill.
-
-<self-contained prompt>
+STATUT: QUESTIONS
+- id: q1
+  header: <max 12 chars>
+  question: <full, self-contained question, ending with ?>
+  multiSelect: false
+  options:
+    - <label> (Recommandé) :: <what it implies, trade-off>
+    - <label> :: <...>
 ```
 
-**Alternatives:** <only when another next step is credible, with its condition — e.g. "if the spec needs no architectural decision: `tdd-implementation`">
-````
+The orchestrating session relays the questions to the user **verbatim** and resumes the same agent with the answers verbatim. It never answers in the user's place and never adds context, so an isolated role stays isolated.
 
-Rules for the prompt:
-
-* **Self-contained.** A new session has none of this context: give the repository, the contract line, the paths of the spec, ADRs, `TESTS.md` and branch, what is done, what remains, and the open questions or review findings to process.
-* **The contract line is mandatory, in every prompt, without exception.** One line: level, spec, ADR, reviews, Next step, tests, separation, proof. A prompt without it is incomplete.
-* **Reference the hand-off.** End the prompt with: "Hand-off memory: `handoff-<task-slug>.md` — read it first." The role reads it before working. Durable decisions are in the spec or ADR the prompt points to, not only in the hand-off.
-* **Respect the boundary of the next role.** The prompt for `product-owner` contains no code or implementation detail; the brief for `test-writer` contains no implementation idea; the prompt for a reviewer does not argue that the change is correct.
-* **One block per turn.** If the user already asked for the following steps (e.g. `pre-delivery-check` then `deliver`), do them in sequence and produce a single **Next step** block, at the very end. Same when a review is launched from the implementation session: no intermediate block.
-* **Pick one.** Recommend a single next step; list alternatives only with the condition that would select them.
-* **Say when the workflow ends.** If nothing remains (delivered, audit only), say so instead of inventing a step, and give the follow-up prompt only if a follow-up was identified.
-
-Add **Seuils franchis** before the block when a threshold was crossed (see `task-kickoff`).
-
-The routing for each role is in the "Next step" section of its skill or agent. This block complements the memory hand-off above: the memory records the state, the block tells the user what to launch.
-
-When the contract sets Next step to `non`, end with a 3-line summary: what changed, the proof, what is not verified. Add **Seuils franchis** when a threshold was crossed (see `task-kickoff`).
+A skill's procedure that says "ask the user" means, for an agent, "ask through this block".
 
 ---
 
@@ -565,9 +577,9 @@ Do not create module-level files by default.
 
 ---
 
-## 10. Independent roles
+## 10. Roles
 
-Use specialized agents when an independent context improves review quality.
+Every role is an agent in `~/.claude/agents/`, launched by `orchestrate` (see §1). The production roles (`product-owner`, `architect`, `implementer`, `bug-investigator`, `refactorer`, `pre-delivery-checker`, `deliver`) load the skill of the same procedure. The independent roles below review or test from a fresh context.
 
 ### `test-writer`
 
@@ -621,23 +633,19 @@ These agents review from a fresh context.
 
 Use the relevant Skill instead of reproducing its full procedure manually.
 
-Available workflow Skills:
+Run in the orchestrating session:
 
 * `task-kickoff` — first, on every task
+* `orchestrate` — right after, for every level except Out of workflow; also to resume a task
+
+Role procedures, loaded by their agent:
+
+* `product-owner`, `architect`, `tdd-implementation`, `test-authoring`, `bug-investigation`, `refactor-module`, `pre-delivery-check`, `deliver`
+
+Invoked explicitly, outside the pipeline:
+
 * `existing-project-bootstrap`
-* `start-feature`
 * `architecture-audit`
-* `tdd-implementation`
-* `test-authoring`
-* `bug-investigation`
-* `refactor-module`
-* `pre-delivery-check`
-
-Interactive role Skills:
-
-* `product-owner`
-* `architect`
-* `deliver`
 * `grilling` (alias `grill-me`)
 
 The detailed procedure belongs in each Skill, not in this file.
