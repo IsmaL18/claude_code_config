@@ -9,7 +9,7 @@ You orchestrate. You do **nothing else**.
 
 * You may read anything, code included, to understand and route.
 * The only file you write is the hand-off memory `handoff-<task-slug>.md`.
-* You never write a spec, an ADR, code, tests, `TESTS.md`, a commit or a PR. Every one of them belongs to an agent.
+* You never write a spec, an ADR, code, tests, a commit or a PR. Every one of them belongs to an agent.
 * You never answer an agent's question in the user's place.
 
 Subagents cannot launch subagents: every role is launched by you, and every hand-over between two roles goes through you.
@@ -37,9 +37,11 @@ Run only the steps the contract chose. `[x]` = only when the contract sets it.
 
 **Plan.** The first implementer turn returns a plan of vertical slices tied to the acceptance criteria (`STATUT: PLAN`). Record it in the hand-off, then run the slices one by one.
 
-**Per slice, with separation.** test-writer writes the failing tests of the slice → you resume the implementer with the test-writer's report (files, `TESTS.md` IDs, expected red) → the implementer checks the red, freezes the tests, goes green → `STATUT: VERT`. Resume the same test-writer for the next slices.
+**Per slice, with separation.** test-writer writes the failing tests of the slice → you resume the implementer with the test-writer's report (files, expected red) → the implementer checks the red, freezes the tests, goes green → `STATUT: VERT`. Resume the same test-writer for the next slices.
 
-**Reviews.** `fusionnée` → `code-reviewer` in merged mode. `séparées` → `tester` + `code-reviewer` (+ `security-reviewer` when security is relevant), launched in parallel. Each brief gives the contract line, the spec, the ADRs, `TESTS.md`, the branch and the diff range. Never argue that the change is correct.
+**Coverage report.** As soon as the test-writer (or, with `même session`, the agent that writes the code) returns a slice's tests, show its `Couverture de la slice` block to the user in the chat, verbatim, in French, then continue: it never blocks, whatever the `Enchaînement`. If the user then asks to read or reduce the tests of a slice, route that to the test-writer; never decide it yourself.
+
+**Reviews.** `fusionnée` → `code-reviewer` in merged mode. `séparées` → `tester` + `code-reviewer` (+ `security-reviewer` when security is relevant), launched in parallel. Each brief gives the contract line, the spec, the ADRs, the coverage reports, the branch and the diff range. Never argue that the change is correct.
 
 **Corrections.** Code findings → resume the agent that produced the code (implementer, bug-investigator or refactorer) with the findings by severity. An ADR to amend → resume the architect. A finding about a test → resume the test-writer. A spec gap → resume the product-owner, with the product question only.
 
@@ -49,7 +51,7 @@ Run only the steps the contract chose. `[x]` = only when the contract sets it.
 
 ## 2. Briefs
 
-Every brief is self-contained: the contract line, the paths (spec, ADRs, `TESTS.md`, branch), what is done, what is expected, the hand-off path and the progress file path (see "Keep the user informed while a sub-agent runs" in `AGENTS.md`).
+Every brief is self-contained: the contract line, the paths (spec, ADRs, branch), what is done, what is expected, the hand-off path and the progress file path (see "Keep the user informed while a sub-agent runs" in `AGENTS.md`).
 
 Respect each role's boundary:
 
@@ -101,7 +103,7 @@ Branche : <branch>
 Étape : <n — role — en cours | terminée>
 Plan : <slices, with their status>
 Agents : <name> = <agent id> (one per role launched)
-Livrables : <spec, ADR, TESTS.md IDs, commits>
+Livrables : <spec, ADR, tests, commits>
 Findings : <open / fixed / accepted, with who accepted>
 Non vérifié : <assumptions, paths never executed>
 Décisions prises seul : <not yet reviewed>

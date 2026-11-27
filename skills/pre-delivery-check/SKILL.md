@@ -24,8 +24,8 @@ Touch-up runs a reduced check: steps 1, 3 and 7 only, plus the diff-scope, debug
    - project-specific validation commands.
 5. Check for:
    - failing or skipped relevant tests;
-   - with separation only: tests, fixtures, snapshots, test configuration or `TESTS.md` modified outside the `test-writer` role (compare the test-file diff with the `TESTS.md` entries and the test-writer reports);
-   - new or changed tests missing from `TESTS.md`;
+   - with separation only: tests, fixtures, snapshots or test configuration modified outside the `test-writer` role (compare the test-file diff with the test-writer reports);
+   - traceability and budget: run `python3 ~/.claude/skills/test-authoring/covers_matrix.py --changed-since <base>` for the tests of the change, and `covers_matrix.py` for the whole repository. A new or changed test without a `covers:` marker is a blocker (owner `test-writer`). A criterion of the task's spec with no test and no contract proof is a blocker. More than one new test for a criterion, with no justification in the coverage reports, is a blocker (owner `test-writer`). Report the tests-per-criterion ratio of the change;
    - new shape tests (DOM structure, CSS classes, exact non-contractual text, snapshots) or tests failing "What deserves a test" in `AGENTS.md`;
    - the reviews set in the contract not run;
    - accidental unrelated changes;

@@ -21,7 +21,7 @@ Then the same session runs the `orchestrate` skill, for every level except Out o
 |---|---|---|
 | `product-owner` | `product-owner` | `specs/NNN-*.md` |
 | `architect` | `architect` | `docs/adr/NNNN-*.md`, amended ADRs |
-| `test-writer` | `test-authoring` | tests + `TESTS.md` |
+| `test-writer` | `test-authoring` | tests with `covers:` markers, coverage report |
 | `implementer` | `tdd-implementation` | production code, corrections |
 | `bug-investigator` | `bug-investigation` | diagnosis, fix, corrections |
 | `refactorer` | `refactor-module` | refactoring, corrections |
@@ -40,7 +40,7 @@ Levels and their pipeline (details in `orchestrate`):
 * **UI redesign** — `implementer`. The contract still sets tests and proof.
 * **Refactor** — `[architect]` → `refactorer`.
 
-Other skills, invoked explicitly, outside the pipeline: `existing-project-bootstrap`, `architecture-audit`.
+Other skills, invoked explicitly, outside the pipeline: `existing-project-bootstrap`, `architecture-audit`, `test-audit`.
 
 ### Session boundaries
 
@@ -50,7 +50,7 @@ A fresh context is mandatory where independence is the point. Continuity is an a
 |---|---|---|---|---|---|
 | `product-owner` | spec chosen | fresh, **mandatory**, enforced by a hook | `PRODUCT.md`, `USER.md`, `specs/` | source code | `specs/NNN-*.md` |
 | `architect` | ADR chosen, or an ADR to amend | fresh, resumed for amendments | spec, `ARCHITECTURE.md`, ADRs, code structure | — | `docs/adr/NNNN-*.md` |
-| `test-writer` (skill `test-authoring`) | separation chosen | fresh, **mandatory**, resumed slice after slice | spec, ADRs, public interfaces, existing tests, `TESTS.md` | implementation internals | tests + `TESTS.md` |
+| `test-writer` (skill `test-authoring`) | separation chosen | fresh, **mandatory**, resumed slice after slice | spec, ADRs, public interfaces, existing tests | implementation internals | tests with `covers:` markers |
 | `implementer` / `bug-investigator` / `refactorer` | every level except Out of workflow | one agent per task, resumed for every slice and correction round | everything | — | production code; tests only if separation is `même session` |
 | `code-reviewer` (merged mode) | reviews `fusionnée` | fresh, **mandatory** | everything | — | findings only |
 | `tester` + `code-reviewer` + `security-reviewer` | reviews `séparées` | fresh, **mandatory** | everything | — | findings only |
@@ -120,12 +120,31 @@ A bug that could regress gets a regression test, unless the contract says `aucun
 
 Write a test only when all of these hold:
 
-* **Real risk.** A regression would cost more than the test costs to maintain: business rule, data, security, contract, critical path. At most one test per acceptance criterion, unless justified.
+* **Real risk.** A regression would cost more than the test costs to maintain: business rule, data, security, contract, critical path.
 * **Behavior, not shape.** Never assert DOM structure, CSS classes, exact non-contractual text or snapshots. Test the UI through accessible roles and observable effects.
 * **Highest fast level.** Prefer one fast integration test over several coupled unit tests. Do not unit-test a detail already covered.
 * **Not already guaranteed.** Never test what the typecheck, the lint, a schema or the design system already enforces.
 
 Visual and design rules belong to the lint, the design tokens or the design system. Never to a test.
+
+---
+
+### Every test names what it covers, and the budget is one per criterion
+
+**Marker.** Every test carries a `covers:` comment on the line right above it (above its decorators), in any language:
+
+```text
+# covers: AC-3, ADR-0020#inv9      (Python)
+// covers: AC-3                    (TypeScript / JavaScript)
+```
+
+Allowed tokens: an acceptance criterion (`AC-3`), an ADR guarantee (`ADR-0020#inv9`), `regression:<ref>` for a bug, `characterization` for a refactor. A test with no marker has no source: it is not written. `TESTS.md` no longer exists as a registry: a legacy `TESTS.md` is frozen (read-only for every role, not maintained) until its project is migrated. The traceability matrix (criterion → tests, criteria without test, tests without marker) is generated on demand by `~/.claude/skills/test-authoring/covers_matrix.py`, never written by hand.
+
+**Budget.** At most **one test per acceptance criterion**. A parametrized test counts for one and carries at most 4 cases. Any extra test, and any test whose marker is not an acceptance criterion, is justified in one line in the coverage report. Before adding a test, look for an existing one at the same criterion or seam and extend it; a changed criterion replaces its old tests, it does not stack on them. One guard, one normalization or one hardening is covered by one property test, not one test per variant. Reuse the existing helpers and doubles: a new helper file or double is named in the coverage report with the reason no existing one fits.
+
+**Coverage report.** After each slice, the test-writer's report carries a short, human-readable coverage report (format in `test-authoring`). The orchestrator shows it to the user in the chat, without blocking. A reviewer asks for a missing test only by naming the criterion or the risk left uncovered.
+
+**Audit.** The skill `test-audit`, invoked on demand, measures the suite and proposes a purge for the user to validate.
 
 Automated visual regression (`toHaveScreenshot`, native snapshots) only when the project already has it or the user asks for it.
 
@@ -145,14 +164,14 @@ This rule applies when the contract sets separation to `test-writer en contexte 
 
 When it applies, tests and production code are written by two separate roles, in two separate contexts:
 
-* the `test-writer` role (agent `test-writer`, skill `test-authoring`) writes and modifies tests, test fixtures, test helpers and test configuration, and records every test it writes in `TESTS.md` at the repository root;
+* the `test-writer` role (agent `test-writer`, skill `test-authoring`) writes and modifies tests, test fixtures, test helpers and test configuration, and marks every test it writes with `covers:`;
 * the agent that writes the code (`implementer`, `bug-investigator`, `refactorer`) writes production code only.
 
-That agent **must never** create, modify, delete, skip, disable or weaken a test, a fixture, a snapshot, a test configuration or `TESTS.md` — not even to fix a typo, an import or an obviously wrong assertion. When a test looks wrong, it stops and sends the evidence back to the `test-writer`; if they disagree on the expected behavior, the user decides.
+That agent **must never** create, modify, delete, skip, disable or weaken a test (`covers:` marker included), a fixture, a snapshot, a test configuration or a legacy `TESTS.md` — not even to fix a typo, an import or an obviously wrong assertion. When a test looks wrong, it stops and sends the evidence back to the `test-writer`; if they disagree on the expected behavior, the user decides.
 
-When the contract sets separation to `même session`, the agent that writes the code also writes its tests, test-first when practical, follows "What deserves a test", and records every test in `TESTS.md`.
+When the contract sets separation to `même session`, the agent that writes the code also writes its tests, test-first when practical, follows "What deserves a test" and the marker and budget rules, and produces the same coverage report.
 
-`TESTS.md` records every test written, whoever the author.
+The `covers:` marker applies to every test, whoever the author.
 
 ---
 
@@ -358,7 +377,7 @@ project/
 ├── USER.md
 ├── DESIGN.md
 ├── ARCHITECTURE.md
-├── TESTS.md        # registry of every test written
+├── TESTS.md        # legacy registry, frozen: only in projects not yet migrated to `covers:` markers
 ├── specs/
 │   └── ...
 ├── docs/
@@ -585,7 +604,7 @@ Every role is an agent in `~/.claude/agents/`, launched by `orchestrate` (see §
 
 Writes the tests, before the implementation, from the specification, at seams it picks itself — never from the implementation.
 
-When separation applies, only role allowed to touch tests and `TESTS.md`. Never writes production code.
+When separation applies, only role allowed to touch tests (and their `covers:` markers). Never writes production code.
 
 Follows the `test-authoring` skill.
 
@@ -646,6 +665,7 @@ Invoked explicitly, outside the pipeline:
 
 * `existing-project-bootstrap`
 * `architecture-audit`
+* `test-audit`
 * `grilling` (alias `grill-me`)
 
 The detailed procedure belongs in each Skill, not in this file.

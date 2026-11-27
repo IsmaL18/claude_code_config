@@ -62,7 +62,7 @@ Up to three questions:
    * `aucun test`: write no test. Existing tests must still pass.
 2. **Séparation code/tests** — `test-writer en contexte neuf` / `même session`. Skip if `aucun test`.
    * `test-writer en contexte neuf`: the rule "the one who writes the code never writes the tests" applies in full.
-   * `même session`: the agent that writes the code also writes the tests, test-first when practical, and records them in `TESTS.md`.
+   * `même session`: the agent that writes the code also writes the tests, test-first when practical, marks each with `covers:` and produces the same coverage report.
 3. **Preuve de fin** (multiSelect) — `capture d'écran par l'agent` / `lint + typecheck + build` / `tests ciblés` / `validation humaine`.
 
 Test execution is fixed, not asked: targeted tests during the work (the touched test files only), the full suite once before the push, in `pre-delivery-check`.

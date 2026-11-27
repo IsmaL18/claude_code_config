@@ -38,9 +38,9 @@ When a test looks wrong, stop and send it back to the test-writer with the evide
 
 1. **Red.** With separation: report `STATUT: BESOIN_TESTS <slice>` with the slice to cover and the test conventions of the repository (location, runner, command). No implementation idea. The orchestrator gets the tests from the test-writer and resumes you with its report.
 2. **Check the red.** Run the tests it reports. They must fail for the expected reason (missing behavior or missing interface). If they fail for another reason, or already pass, report it with `STATUT: TEST_CONTESTÉ` — do not fix it yourself.
-3. **Freeze the tests.** Stage the test files and `TESTS.md` the test-writer reported (`git add <files>`): the index is now the baseline. Do not stage anything else, and do not stage anything until the slice is green.
+3. **Freeze the tests.** Stage the test files the test-writer reported (`git add <files>`): the index is now the baseline. Do not stage anything else, and do not stage anything until the slice is green.
 4. **Green.** Inspect the implementation in detail and write only enough production code to make the tests pass. Don't anticipate future tests or add speculative features.
-5. **Prove you didn't touch the tests.** `git diff --name-only` must list no test file and not `TESTS.md`. If one appears, revert your change to it (`git checkout -- <file>`) and fix the production code instead.
+5. **Prove you didn't touch the tests.** `git diff --name-only` must list no test file (a `covers:` marker is part of the test). If one appears, revert your change to it (`git checkout -- <file>`) and fix the production code instead.
 6. Run the targeted tests, then lint, typecheck and build checks. Compare with the baseline: only new failures are yours. Do not run the full suite here: it runs once in `pre-delivery-check`.
 
 Refactoring is not part of the loop. It belongs to the review stage (`code-reviewer` findings), not the red → green implementation cycle.
@@ -49,7 +49,7 @@ Refactoring is not part of the loop. It belongs to the review stage (`code-revie
 
 Stop implementing that slice. Report `STATUT: TEST_CONTESTÉ` with:
 
-* the test (`file › name` and `TESTS.md` ID);
+* the test (`file › name` and its `covers:` marker);
 * why you believe it contradicts the spec, quoting the spec;
 * the behavior you believe is expected.
 
@@ -63,7 +63,7 @@ Any behavior you state as a guarantee, in a docstring or a commit message, must 
 
 Do not derive expected behavior from existing code when a specification defines it.
 
-End with a concise mapping of acceptance criteria to `TESTS.md` IDs (or to the contract's proof when a criterion is not tested), the verification results, and, with separation, the confirmation that you modified no test file (`git diff --name-only` output).
+End with a concise mapping of acceptance criteria to tests (`file › name`) (or to the contract's proof when a criterion is not tested), the verification results, and, with separation, the confirmation that you modified no test file (`git diff --name-only` output).
 
 ## Report
 

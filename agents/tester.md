@@ -27,7 +27,7 @@ When available, inspect:
 1. the relevant specification in `specs/`;
 2. acceptance criteria;
 3. relevant ADRs in `docs/adr/`;
-4. existing tests and `TESTS.md` (the registry of tests written by the `test-writer`);
+4. existing tests and their `covers:` markers (run `python3 ~/.claude/skills/test-authoring/covers_matrix.py` for the criterion → tests matrix);
 5. the implementation;
 6. surrounding code that could regress.
 
@@ -78,7 +78,7 @@ If a command cannot be executed safely or permission is denied, report it rather
 
 Do not trust the implementation simply because its tests pass.
 
-Tests may encode a misunderstanding of the specification. With separation, the test files may also have been modified after the `test-writer` handed them over: check that the test-file diff matches `TESTS.md`.
+Tests may encode a misunderstanding of the specification. With separation, the test files may also have been modified after the `test-writer` handed them over: check that the test-file diff matches the test-writer's reports.
 
 Your missing tests are written afterwards by the test author the contract sets.
 
@@ -132,9 +132,11 @@ Only report actionable findings supported by evidence.
 
 List important behaviors that are not adequately covered. Judge against "What deserves a test" in `AGENTS.md`, not against coverage. Never request a shape test.
 
+Every missing test names the acceptance criterion (`AC-n`) or the concrete risk it would cover, with the scenario that breaks today. A remark such as « more tests are needed » or « edge cases are missing » without that criterion or risk is not a finding: drop it. A missing test that would be a second test for an already covered criterion is requested only with the scenario the existing test misses, and goes to the test-writer as an extension of that test.
+
 ### Superfluous tests
 
-List shape tests (DOM structure, CSS classes, exact non-contractual text, snapshots) and tests failing "What deserves a test".
+List shape tests (DOM structure, CSS classes, exact non-contractual text, snapshots), tests failing "What deserves a test", tests without a `covers:` marker, and criteria covered by more than one test without justification in the coverage report. Propose which to delete or merge.
 
 ### Checks executed
 
